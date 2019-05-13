@@ -7,8 +7,6 @@ RingCentral personal chatbot framework.
 ```bash
 git clone git@github.com:rc-personal-bot-framework/ringcentral-personal-chatbot-js.git
 cd ringcentral-personal-chatbot-js
-cp .env.sample .env
-# then fill all required fields in .env, you
 npm i
 npm run ngrok
 # will show
@@ -24,6 +22,9 @@ Login to [developer.ringcentral.com](https://developer.ringcentral.com/) and cre
 - OAuth Redirect URI: Using your ngrok HTTPS URL from above, enter in the following value: `https://xxxx.ap.ngrok.io/rc/oauth`.
 
 ```bash
+cp .env.sample .env
+# then fill all required fields in .env, you can get client ID / secret from app setting
+
 # run sample bot
 npm start
 

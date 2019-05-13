@@ -1,0 +1,88 @@
+{
+  "name": "ringcentral-personal-chatbot-js",
+  "version": "0.0.4",
+  "description": "RingCentral personal chatbot framework",
+  "main": "dist/server/index.js",
+  "bin": {
+    "rcf": "bin/rcpf.js",
+    "ringcentral-personal-chatbot-js": "bin/rcpf.js"
+  },
+  "scripts": {
+    "ngrok": "ngrok http -region ap 6066",
+    "ngrok-p": "ngrok http -region ap 4100",
+    "start": "node -r @babel/register -r dotenv/config bin/rcpf.js example-bots/echo.js",
+    "c": "./node_modules/.bin/webpack-dev-server --open --progress --colors --config build/webpack.config.babel.js",
+    "compile": "./node_modules/.bin/babel src/server --out-dir dist/server",
+    "release": "webpack --progress --colors --config build/webpack.config.babel.js",
+    "p": "node -r dotenv/config bin/rcpf.js example-bots/echo.js",
+    "view": "node build/view.js",
+    "build": "npm run clean && npm run compile && npm run release && npm run view",
+    "clean": "node build/clean.js"
+  },
+  "keywords": [
+    "RingCentral",
+    "Chatbot",
+    "AI"
+  ],
+  "author": "Drake Zhao <drake.zhao@ringcentral.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-decorators": "^7.4.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "antd": "^3.17.0",
+    "babel-loader": "^8.0.6",
+    "babel-minify-webpack-plugin": "^0.3.1",
+    "babel-plugin-import": "^1.11.0",
+    "css-loader": "^2.1.1",
+    "dotenv": "^6.2.0",
+    "file-loader": "^3.0.1",
+    "less": "^3.9.0",
+    "less-loader": "^5.0.0",
+    "mini-css-extract-plugin": "^0.6.0",
+    "ngrok": "^3.1.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "react-subx": "^0.4.9",
+    "serverless": "^1.35.1",
+    "shelljs": "^0.8.3",
+    "sqlite3": "^4.0.4",
+    "standard": "^12.0.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "subx": "^0.7.3",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.3.1",
+    "yarn-upgrade-all": "^0.5.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.4.4",
+    "@electerm/express-session-sequelize": "^1.1.0",
+    "body-parser": "^1.19.0",
+    "commander": "^2.20.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "json-deep-copy": "^1.0.2",
+    "morgan": "^1.9.1",
+    "pg": "^7.7.1",
+    "pug": "^2.0.3",
+    "ringcentral-js-concise": "^0.7.7",
+    "sequelize": "^5.8.5",
+    "serverless-http": "^2.0.1",
+    "timeout-as-promise": "^1.0.0"
+  },
+  "standard": {
+    "ignore": [
+      "*-compiled.js",
+      "/dist/"
+    ]
+  }
+}

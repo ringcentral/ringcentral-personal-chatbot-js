@@ -30,6 +30,8 @@ npm start
 
 # start client dev server
 npm run c
+
+# Then visit https://xxxx.ap.ngrok.io to login, after auth, when someone talk to you, you will auto respond.
 ```
 
 ## Todos

@@ -42,3 +42,6 @@ export const skills = [skillA, skillB]
 */
 
 export const skills = []
+
+export const name = 'No name'
+export const description = 'No desc'

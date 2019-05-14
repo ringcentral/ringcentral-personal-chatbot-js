@@ -3,7 +3,15 @@
  */
 import { User } from '../models/ringcentral'
 
-export default async message => {
+function buildBotInfo (conf) {
+  let skillsInfo = conf.skills.reduce((prev, s) => {
+    return prev + `* **${s.name || 'skill No name'}**: ${s.description || 'no description'}\n`
+  }, '')
+  return `This account is controlled by Bot: **${conf.name}** : ${conf.description}
+${skillsInfo ? '**Skills:**\n' + skillsInfo : ''}`
+}
+
+export default async (message, conf) => {
   console.log('The user received a new message')
   let text = message.body.text
   if (!text) {
@@ -27,9 +35,9 @@ export default async message => {
   }
   const regex = new RegExp(`!\\[:Person\\]\\(${user.id}\\)`)
   const textFiltered = text.replace(regex, ' ').trim()
-  if (textFiltered === '__test__') {
+  if (textFiltered === '__test__' || textFiltered === '__help__') {
     await user.sendMessage(groupId, {
-      text: 'Bot running~'
+      text: buildBotInfo(conf)
     })
   }
   return { text, textFiltered, group, user }

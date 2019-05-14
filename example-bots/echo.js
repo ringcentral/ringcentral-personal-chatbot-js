@@ -3,13 +3,18 @@
  * echo any message, pretty annoying
  */
 
-exports.onPostAdd = ({
+exports.onPostAdd = async ({
   text, // original text
   textFiltered, // text without metion user
   group,
-  user
+  user,
+  handled // hanlded by prev skills
 }) => {
-  user.sendMessage(group.id, {
+  await user.sendMessage(group.id, {
     text: textFiltered
   })
 }
+
+exports.name = 'echo bot'
+
+exports.description = 'Bot will echo every message'

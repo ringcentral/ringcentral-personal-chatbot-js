@@ -5,6 +5,8 @@ RingCentral personal chatbot framework.
 - [Quick start](#quick-start)
 - [Build and run in production](#build-and-run-in-production)
 - [Use as CLI tool](#use-as-cli-tool)
+- [Write a personal bot](#write-a-personal-bot)
+- [Write/use a personal bot skill](#writeuse-a-personal-bot-skill)
 - [Credits](#credits)
 - [License](#license)
 
@@ -76,6 +78,14 @@ npx ringcentral-personal-chatbot your-bot-file.js
 
 # check example-bots folders for bot examples, it is quite simple, you could just write your own.
 ```
+
+## Write a personal bot
+
+[docs/write-a-bot.md](docs/write-a-bot.md)
+
+## Write/use a personal bot skill
+
+[docs/write-use-a-skill.md](docs/write-use-a-skill.md)
 
 ## Credits
 

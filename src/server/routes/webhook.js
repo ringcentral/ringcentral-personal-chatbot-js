@@ -11,10 +11,11 @@ async function run (props, conf, funcName) {
   let handled = false
   for (let skill of skills) {
     if (skill[funcName]) {
-      handled = await skill[funcName]({
+      let prev = await skill[funcName]({
         ...props,
         handled
       })
+      handled = handled || prev
     }
   }
   await conf[funcName]({
@@ -26,7 +27,6 @@ async function run (props, conf, funcName) {
 export default (conf) => {
   return async (req, res) => {
     let message = req.body
-    console.log(message, 'message')
     let isRenewEvent = _.get(message, 'event') === subscribeInterval()
     let userId = (_.get(message, 'body.extensionId') || _.get(message, 'ownerId') || '').toString()
     if (!userId) {
@@ -49,7 +49,7 @@ export default (conf) => {
     }
     let eventType = _.get(message, 'body.eventType')
     if (eventType === 'PostAdded') {
-      const result = await onAddPost(message)
+      const result = await onAddPost(message, conf)
       if (result) {
         await run({ type: 'Message4Bot', ...result }, conf, 'onPostAdd')
       }

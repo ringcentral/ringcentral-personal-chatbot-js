@@ -5,16 +5,23 @@
 // could load User class
 // import { User } from 'ringcentral-personal-chatbot-js/dist/models/ringcentral'
 
+exports.name = 'Bot skill name'
+
+exports.description = 'Bot skill description'
+
 // handle post added event
-export const onPostAdd = ({
+export const onPostAdd = async ({
   text, // original text
   textFiltered, // text without metion user
   group,
-  user
+  user,
+  handled // hanlded by prev skills
 }) => {
-  user.sendMessage(group.id, {
+  await user.sendMessage(group.id, {
     text: textFiltered
   })
+  // return true so next skill would know message is already handled
+  return true
 }
 
 // handle all events except post added event

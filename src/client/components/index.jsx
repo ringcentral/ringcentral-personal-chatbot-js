@@ -6,6 +6,12 @@ export default class App extends Component {
   renderLogined () {
     return (
       <div className='aligncenter wrap'>
+        <div className='pd2b'>
+          <img
+            className='iblock'
+            src={logo}
+          />
+        </div>
         <h1>Ringcentral personal bot system</h1>
         <div className='pd1b'>
           Bot running, you can post message with "__test__" to verify.
@@ -22,13 +28,13 @@ export default class App extends Component {
   renderNotLogined () {
     return (
       <div className='aligncenter wrap'>
-        <h1>Ringcentral personal bot system</h1>
         <div className='pd2b'>
           <img
             className='iblock'
             src={logo}
           />
         </div>
+        <h1>Ringcentral personal bot system</h1>
         <a href={window.rc.authUrl}>
           <Button icon='login'>
             login

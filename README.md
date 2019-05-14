@@ -72,7 +72,7 @@ npm run ngrok-p
 I will as simple as this:
 
 ```bash
-npx ringcentral-personal-chatbot-js your-bot-file.js
+npx ringcentral-personal-chatbot your-bot-file.js
 
 # check example-bots folders for bot examples, it is quite simple, you could just write your own.
 ```

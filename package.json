@@ -1,11 +1,11 @@
 {
   "name": "ringcentral-personal-chatbot",
-  "version": "0.1.7",
+  "version": "0.1.10",
   "description": "RingCentral personal chatbot framework",
   "main": "dist/server/index.js",
   "bin": {
     "rcpf": "bin/rcpf.js",
-    "ringcentral-personal-chatbot-js": "bin/rcpf.js"
+    "ringcentral-personal-chatbot": "bin/rcpf.js"
   },
   "scripts": {
     "ngrok": "ngrok http -region ap 6066",
@@ -52,7 +52,6 @@
     "react-subx": "^0.4.9",
     "serverless": "^1.35.1",
     "shelljs": "^0.8.3",
-    "sqlite3": "^4.0.4",
     "standard": "^12.0.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
@@ -76,6 +75,7 @@
     "morgan": "^1.9.1",
     "pg": "^7.7.1",
     "pug": "^2.0.3",
+    "sqlite3": "^4.0.4",
     "ringcentral-js-concise": "^0.7.7",
     "sequelize": "^5.8.5",
     "serverless-http": "^2.0.1",

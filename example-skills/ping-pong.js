@@ -3,7 +3,7 @@
  * reply pong to ping
  */
 
-export const onPostAdd = async ({
+exports.onPostAdd = async ({
   text, // original text
   textFiltered, // text without metion user
   group,

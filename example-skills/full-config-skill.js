@@ -10,7 +10,7 @@ exports.name = 'Bot skill name'
 exports.description = 'Bot skill description'
 
 // handle post added event
-export const onPostAdd = async ({
+exports.onPostAdd = async ({
   text, // original text
   textFiltered, // text without metion user
   group,

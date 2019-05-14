@@ -3,6 +3,14 @@ import { Button, List } from 'antd'
 import logo from '../images/rc128.png'
 
 export default class App extends Component {
+  renderFooter () {
+    return (
+      <div className='bordert mg3t pd1y'>
+        About this project: <a href='https://github.com/rc-personal-bot-framework/glip-personal-bot-framework'>github repo</a>
+      </div>
+    )
+  }
+
   renderSkills (skills) {
     if (!skills.length) {
       return null
@@ -58,6 +66,7 @@ export default class App extends Component {
           </Button>
         </a>
         <p>Only after logout, bot will stop working</p>
+        {this.renderFooter()}
       </div>
     )
   }
@@ -80,6 +89,7 @@ export default class App extends Component {
           </a>
         </p>
         {this.renderBotInfo()}
+        {this.renderFooter()}
       </div>
     )
   }

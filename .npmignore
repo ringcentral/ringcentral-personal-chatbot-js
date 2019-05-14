@@ -1,0 +1,11 @@
+/build/
+/test/
+/tests/
+.babelrc
+.eslintignore
+.gitignore
+db.sqlite
+/src/
+/temp/
+/example-bots/
+/example-skills/

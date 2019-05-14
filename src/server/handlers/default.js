@@ -16,9 +16,7 @@ export const onPostAdd = ({
   group,
   user
 }) => {
-  user.sendMessage(group.id, {
-    text: textFiltered
-  })
+  console.log('got text', text)
 }
 
 // handle all events except post added event
@@ -27,7 +25,7 @@ export const onEvent = ({
   message, // original event message
   user // user instance
 }) => {
-  // console.log(message)
+  console.log(message)
 }
 
 // extends express app as you need

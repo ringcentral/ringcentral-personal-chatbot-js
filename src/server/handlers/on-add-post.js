@@ -3,7 +3,7 @@
  */
 import { User } from '../models/ringcentral'
 
-export const postAdded = async message => {
+export default async message => {
   console.log('The user received a new message')
   let text = message.body.text
   if (!text) {
@@ -19,8 +19,8 @@ export const postAdded = async message => {
   const group = await user.getGroup(groupId)
   const isPrivateChat = group.members.length <= 2
   if (!isPrivateChat && (
-    message.body.mentions === null ||
-    !message.body.mentions.some(m => m.type === 'Person' && m.id === ownerId)
+    message.body.mentions &&
+    message.body.mentions.some(m => m.type === 'Person' && m.id === ownerId)
   )) {
     // only respond to mentioned chat in group chat or private chat
     return
@@ -28,7 +28,7 @@ export const postAdded = async message => {
   const regex = new RegExp(`!\\[:Person\\]\\(${user.id}\\)`)
   const textFiltered = text.replace(regex, ' ').trim()
   if (textFiltered === '__test__') {
-    await user.sendMessage({
+    await user.sendMessage(groupId, {
       text: 'Bot running~'
     })
   }

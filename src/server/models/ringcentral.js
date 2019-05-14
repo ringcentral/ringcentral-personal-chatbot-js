@@ -111,7 +111,7 @@ User.prototype.setupWebHook = async function () {
           // '/restapi/v1.0/account/~/extension/~/message-store/instant?type=SMS',
           subscribeInterval()
         ],
-        expiresIn: 120,
+        expiresIn: 1799,
         deliveryMode: {
           transportType: 'WebHook',
           address: process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/webhook'

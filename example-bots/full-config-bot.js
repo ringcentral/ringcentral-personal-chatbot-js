@@ -6,7 +6,7 @@
 // import { User } from 'ringcentral-personal-chatbot-js/dist/models/ringcentral'
 
 // handle post added event
-export const onPostAdd = ({
+exports.onPostAdd = ({
   text, // original text
   textFiltered, // text without metion user
   group,
@@ -18,7 +18,7 @@ export const onPostAdd = ({
 }
 
 // handle all events except post added event
-export const onEvent = ({
+exports.onEvent = ({
   eventType, // == message.body.eventType
   message, // original event message
   user // user instance
@@ -27,16 +27,16 @@ export const onEvent = ({
 }
 
 // extends express app as you need
-export const appExtend = (app) => {
+exports.appExtend = (app) => {
   app.get('/some-route', (req, res) => res.end('some'))
 }
 
 // export skills
 // check skill-examples/*.js for skill examples
 /*
-import skillA from 'skill-a'
-import skillB from 'skill-b'
-export const skills = [skillA, skillB]
+const skillA = require('skill-a')
+const skillB = require('skill-b')
+exports.skills = [skillA, skillB]
 */
 
-export const skills = []
+exports.skills = []

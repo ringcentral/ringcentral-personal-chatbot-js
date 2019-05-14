@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+require('dotenv').config()
 const { resolve } = require('path')
 const program = require('commander')
 const { existsSync } = require('fs')

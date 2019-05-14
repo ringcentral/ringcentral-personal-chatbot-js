@@ -1,8 +1,45 @@
-import { Component } from 'react-subx'
-import { Button } from 'antd'
+import { Component } from 'react'
+import { Button, List } from 'antd'
 import logo from '../images/rc128.png'
 
 export default class App extends Component {
+  renderSkills (skills) {
+    if (!skills.length) {
+      return null
+    }
+    return (
+      <List
+        dataSource={skills}
+        bordered
+        header={<div>Skills</div>}
+        renderItem={item => (
+          <List.Item>
+            <b>{item.name}: </b>
+            <span className='mg1l'>{item.description}</span>
+          </List.Item>
+        )}
+      />
+    )
+  }
+
+  renderBotInfo () {
+    let { botInfo } = this.props.store
+    if (!botInfo) {
+      return null
+    }
+    return (
+      <div className='bot-info mg2b'>
+        <h2>
+          {botInfo.name}
+        </h2>
+        <p className='pd1b'>{botInfo.description}</p>
+        {
+          this.renderSkills(botInfo.skills)
+        }
+      </div>
+    )
+  }
+
   renderLogined () {
     return (
       <div className='aligncenter wrap'>
@@ -13,14 +50,14 @@ export default class App extends Component {
           />
         </div>
         <h1>Ringcentral personal bot system</h1>
-        <div className='pd1b'>
-          Bot running, you can post message with "__test__" to verify.
-        </div>
+        <p className='pd1y'>Bot is working now, you can close this page, bot will still work. You can stop the bot by come back and logout.</p>
+        {this.renderBotInfo()}
         <a href='/logout'>
           <Button icon='logout'>
             logout
           </Button>
         </a>
+        <p>Only after logout, bot will stop working</p>
       </div>
     )
   }
@@ -35,11 +72,14 @@ export default class App extends Component {
           />
         </div>
         <h1>Ringcentral personal bot system</h1>
-        <a href={window.rc.authUrl}>
-          <Button icon='login'>
-            login
-          </Button>
-        </a>
+        <p className='pd2b pd1t'>
+          <a href={window.rc.authUrl}>
+            <Button icon='login' type='primary' size='large'>
+              Login
+            </Button>
+          </a>
+        </p>
+        {this.renderBotInfo()}
       </div>
     )
   }

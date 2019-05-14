@@ -36,7 +36,7 @@ app.use(expressSession({
 app.set('views', resolve(__dirname, '../views'))
 app.set('view engine', 'pug')
 
-app.get('/', viewIndex)
+
 app.get('/logout', logout)
 app.get('/test', (req, res) => res.send('server running'))
 app.get('/rc/oauth', oauth)
@@ -44,6 +44,7 @@ app.put('/admin/setup-database', initDb)
 app.get('/admin/view-database', viewDb)
 
 export const initApp = (conf) => {
+  app.get('/', viewIndex(conf))
   app.post('/rc/webhook', initWebhook(conf))
   for (let skill of conf.skills) {
     if (skill.appExtend) {

@@ -1,8 +1,13 @@
-import SubX from 'subx'
+// import SubX from 'subx'
 
-const store = SubX.create({
+// const store = SubX.create({
+//   logined: !!window.rc.user,
+//   user: window.rc.user,
+//   botInfo: window.rc.botInfo
+// })
+
+export default {
   logined: !!window.rc.user,
-  user: window.rc.user
-})
-
-export default store
+  user: window.rc.user,
+  botInfo: window.rc.botInfo
+}

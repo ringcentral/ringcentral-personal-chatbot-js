@@ -7,6 +7,7 @@ RingCentral personal chatbot framework.
 - [Use as CLI tool](#use-as-cli-tool)
 - [Write a personal bot](#write-a-personal-bot)
 - [Write/use a personal bot skill](#writeuse-a-personal-bot-skill)
+- [Origin](#origin)
 - [Credits](#credits)
 - [License](#license)
 
@@ -86,6 +87,10 @@ npx ringcentral-personal-chatbot your-bot-file.js
 ## Write/use a personal bot skill
 
 [docs/write-use-a-skill.md](docs/write-use-a-skill.md)
+
+## Origin
+
+It is a project for RingCentral Xiamen Office 2019 Hackathon. It begin with [Jakob Lewei](https://github.com/orgs/rc-personal-bot-framework/people/jakob-lewei)'s idea about fuzzy matching FAQ bot, then I decided to make it more generic: a bot frame work for personal glip account.
 
 ## Credits
 

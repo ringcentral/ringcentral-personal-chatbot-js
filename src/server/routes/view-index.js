@@ -12,7 +12,7 @@ const pack = require(resolve(cwd, 'package.json'))
 const inst = new User()
 
 function buildBotInfo (conf) {
-  let props = ['name', 'description']
+  let props = ['name', 'description', 'settingPath']
   let info = _.pick(conf, props)
   info.skills = conf.skills.map(s => _.pick(s, props))
   return info

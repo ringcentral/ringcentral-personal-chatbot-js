@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-personal-chatbot",
-  "version": "0.1.12",
+  "version": "0.2.0",
   "description": "RingCentral personal chatbot framework",
   "main": "dist/server/index.js",
   "bin": {
@@ -82,6 +82,7 @@
     "timeout-as-promise": "^1.0.0"
   },
   "standard": {
+    "no-useless-escape": 0,
     "ignore": [
       "*-compiled.js",
       "/dist/"

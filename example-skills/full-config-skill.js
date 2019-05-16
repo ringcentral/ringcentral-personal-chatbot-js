@@ -9,6 +9,9 @@ exports.name = 'Bot skill name'
 
 exports.description = 'Bot skill description'
 
+// only if you have setting page
+exports.settingPath = '/skill/your-skill-setting-path'
+
 // handle post added event
 exports.onPostAdd = async ({
   text, // original text

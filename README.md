@@ -90,7 +90,7 @@ npx ringcentral-personal-chatbot your-bot-file.js
 
 ## Origin
 
-It is a project for RingCentral Xiamen Office 2019 Hackathon. It begin with [Jakob Lewei](https://github.com/orgs/rc-personal-bot-framework/people/jakob-lewei)'s idea about fuzzy matching FAQ bot, then I decided to make it more generic: a bot frame work for personal glip account.
+It is a project for RingCentral Xiamen Office 2019 Hackathon. It begin with [Jakob Lewei](https://github.com/orgs/rc-personal-bot-framework/people/jakob-lewei)'s idea about fuzzy matching FAQ bot, then I decided to make it more generic: a bot framework for personal glip account.
 
 ## Credits
 

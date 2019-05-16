@@ -5,6 +5,8 @@
 
 const skillServerTime = require('../example-skills/skill-time')
 const skillPingpong = require('../example-skills/ping-pong')
+const skillCalc = require('../example-skills/skill-simple-math')
+const skillFake = require('../example-skills/fake-skill-with-setting-page')
 
 exports.onPostAdd = async ({
   text, // original text
@@ -24,4 +26,4 @@ exports.onPostAdd = async ({
 exports.name = 'Hello bot'
 
 exports.description = 'Bot only respond to "Hello"'
-exports.skills = [skillServerTime, skillPingpong]
+exports.skills = [skillServerTime, skillPingpong, skillCalc, skillFake]

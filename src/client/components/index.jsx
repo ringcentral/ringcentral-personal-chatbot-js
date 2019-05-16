@@ -24,6 +24,15 @@ export default class App extends Component {
           <List.Item>
             <b>{item.name}: </b>
             <span className='mg1l'>{item.description}</span>
+            {
+              item.settingPath
+                ? (
+                  <a target='_blank' className='mg1l fright' href={item.settingPath}>
+                    <Button type='primary' icon='setting'> Skill setting</Button>
+                  </a>
+                )
+                : null
+            }
           </List.Item>
         )}
       />

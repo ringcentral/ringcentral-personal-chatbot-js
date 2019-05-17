@@ -20,6 +20,10 @@ export const Service = sequelize.define('user', {
     type: Sequelize.BOOLEAN,
     defaultValue: true
   },
+  signed: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
+  },
   data: { // all other data associcated with this user
     type: Sequelize.JSON
   }

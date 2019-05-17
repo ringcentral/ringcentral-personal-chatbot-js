@@ -19,6 +19,7 @@ export const appExtend = (app) => {
 
 exports.name = 'fake skill'
 exports.description = 'this skill has a setting page and do nothing'
+exports.homepage = ''
 
 // only if you have setting page
 exports.settingPath = '/skill/fake-setting'

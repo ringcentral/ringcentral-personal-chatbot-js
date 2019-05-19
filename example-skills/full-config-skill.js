@@ -12,6 +12,8 @@ exports.description = 'Bot skill description'
 // only if you have setting page
 exports.settingPath = '/skill/your-skill-setting-path'
 
+exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-skills/full-config-skill.js'
+
 // handle post added event
 exports.onPostAdd = async ({
   text, // original text
@@ -31,7 +33,8 @@ exports.onPostAdd = async ({
 export const onEvent = ({
   eventType, // == message.body.eventType
   message, // original event message
-  user // user instance
+  user, // user instance
+  shouldUseSignature // should use signature like "send by bot skill xxx" in message.
 }) => {
   console.log(message)
 }

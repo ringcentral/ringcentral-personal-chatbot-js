@@ -2,11 +2,14 @@
 
 RingCentral personal chatbot framework.
 
+![ ](screenshots/ss.png)
+
 - [Quick start](#quick-start)
 - [Build and run in production](#build-and-run-in-production)
 - [Use as CLI tool](#use-as-cli-tool)
 - [Write a personal bot](#write-a-personal-bot)
 - [Write/use a personal bot skill](#writeuse-a-personal-bot-skill)
+- [Build-in commands](#build-in-commands)
 - [Origin](#origin)
 - [Credits](#credits)
 - [License](#license)
@@ -87,6 +90,10 @@ npx ringcentral-personal-chatbot your-bot-file.js
 ## Write/use a personal bot skill
 
 [docs/write-use-a-skill.md](docs/write-use-a-skill.md)
+
+## Build-in commands
+
+- `__test__`: show bot info.
 
 ## Origin
 

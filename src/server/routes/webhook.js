@@ -13,6 +13,7 @@ async function run (props, conf, funcName) {
     if (skill[funcName]) {
       let prev = await skill[funcName]({
         ...props,
+        shouldUseSignature: conf.shouldUseSignature,
         handled
       })
       handled = handled || prev
@@ -48,13 +49,18 @@ export default (conf) => {
       }
     }
     let eventType = _.get(message, 'body.eventType')
+    let shouldUseSignature = !!_.get(user, 'signed')
+    let currentConf = {
+      ...conf,
+      shouldUseSignature
+    }
     if (eventType === 'PostAdded') {
-      const result = await onAddPost(message, conf)
+      const result = await onAddPost(message, currentConf, shouldUseSignature)
       if (result) {
-        await run({ type: 'Message4Bot', ...result }, conf, 'onPostAdd')
+        await run({ type: 'Message4Bot', ...result }, currentConf, 'onPostAdd')
       }
     }
-    await run({ eventType, message }, conf, 'onEvent')
+    await run({ eventType, message, user }, conf, 'onEvent')
     res.set({
       'validation-token': req.get('validation-token') || req.get('Validation-Token')
     })

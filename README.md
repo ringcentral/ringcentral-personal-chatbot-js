@@ -79,9 +79,10 @@ I will as simple as this:
 
 ```bash
 npx ringcentral-personal-chatbot your-bot-file.js
-
-# check example-bots folders for bot examples, it is quite simple, you could just write your own.
 ```
+
+- Check example-bots folders for bot examples, it is quite simple, you could just write your own.
+- Check [ringcentral-personal-bot-template-js](https://github.com/rc-personal-bot-framework/ringcentral-personal-bot-template-js) as a realworld example which uses [ringcentral-personal-chatbot-skill-faq](https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-skill-faq) and [ringcentral-personal-bot-skill-pack-simple](https://github.com/rc-personal-bot-framework/ringcentral-personal-bot-skill-pack-simple), it only need [28 lines code](https://github.com/rc-personal-bot-framework/ringcentral-personal-bot-template-js/blob/master/src/server/index.js).
 
 ## Write a personal bot
 

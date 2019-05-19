@@ -44,3 +44,8 @@ exports.skills = [skillA, skillB]
 ```
 
 That is it.
+
+## Real example
+
+- [ringcentral-personal-chatbot-skill-faq](https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-skill-faq)
+- [ringcentral-personal-bot-skill-pack-simple](https://github.com/rc-personal-bot-framework/ringcentral-personal-bot-skill-pack-simple)

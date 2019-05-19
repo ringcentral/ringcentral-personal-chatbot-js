@@ -29,3 +29,7 @@ exports.description = 'Bot only respond to "Hello"'
 ```
 
 For more bot config, you can check [https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-bots/full-config-bot.js](https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-bots/full-config-bot.js)
+
+## Real examples
+
+- [ringcentral-personal-bot-template-js](https://github.com/rc-personal-bot-framework/ringcentral-personal-bot-template-js)

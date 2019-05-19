@@ -12,6 +12,7 @@ import logout from './routes/logout'
 import api from './routes/api'
 import morgan from 'morgan'
 import { resolve } from 'path'
+const { existsSync } = require('fs')
 
 const SessionStore = require('@electerm/express-session-sequelize')(expressSession.Store)
 const sequelizeSessionStore = new SessionStore({
@@ -20,8 +21,7 @@ const sequelizeSessionStore = new SessionStore({
 })
 
 const app = express()
-const cwd = process.cwd()
-const staticPath = resolve(cwd, 'dist', 'static')
+const staticPath = resolve(__dirname, '../../dist/static')
 
 app.use(express.static(staticPath))
 app.use(morgan('tiny'))

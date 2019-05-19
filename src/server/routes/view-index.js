@@ -7,8 +7,7 @@ import { resolve } from 'path'
 import _ from 'lodash'
 import { User } from '../models/ringcentral'
 
-const cwd = process.cwd()
-const pack = require(resolve(cwd, 'package.json'))
+const pack = require(resolve(__dirname, '../../../package.json'))
 const inst = new User()
 
 function buildBotInfo (conf) {

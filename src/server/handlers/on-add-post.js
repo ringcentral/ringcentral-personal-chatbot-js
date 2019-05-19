@@ -35,8 +35,8 @@ export default async (message, conf) => {
   const group = await user.getGroup(groupId)
   const isPrivateChat = group.members.length <= 2
   if (!isPrivateChat && (
-    message.body.mentions &&
-    message.body.mentions.some(m => m.type === 'Person' && m.id === ownerId)
+    !message.body.mentions ||
+    !message.body.mentions.some(m => m.type === 'Person' && m.id === ownerId)
   )) {
     // only respond to mentioned chat in group chat or private chat
     return

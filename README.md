@@ -2,7 +2,7 @@
 
 RingCentral personal chatbot framework.
 
-![ ](screenshots/ss.png)
+![ ](https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-skill-faq/raw/master/screenshots/s1.png)
 
 - [Quick start](#quick-start)
 - [Build and run in production](#build-and-run-in-production)

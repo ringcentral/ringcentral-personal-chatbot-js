@@ -12,7 +12,7 @@ function buildBotInfo (conf) {
     return prev + `* **${name}**: ${s.description || 'no description'}\n`
   }, '')
   let cn = conf.name
-  cn = cn.homepage
+  cn = conf.homepage
     ? `[${cn}](${conf.homepage})`
     : cn
   return `This account is controlled by Bot: **${cn}** : ${conf.description}

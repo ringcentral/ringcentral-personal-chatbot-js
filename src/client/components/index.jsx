@@ -3,10 +3,16 @@ import { Button, List, Switch } from 'antd'
 import logo from '../images/rc128.png'
 
 export default class App extends Component {
+  componentDidMount () {
+    window.particleBg('#bg', {
+      color: '#eee'
+    })
+  }
+
   renderFooter () {
     return (
-      <div className='bordert mg3t pd1y'>
-        About this project: <a href='https://github.com/rc-personal-bot-framework/glip-personal-bot-framework'>github repo</a>
+      <div className='mg3t pd1y'>
+        About this project: <a href='https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js' target='_blank'>ringcentral-personal-chatbot</a>
       </div>
     )
   }
@@ -19,24 +25,30 @@ export default class App extends Component {
       <List
         dataSource={skills}
         bordered
-        header={<div>Skills</div>}
+        header={<div>Loaded Skills</div>}
         renderItem={item => (
           <List.Item>
-            {
-              item.homepage
-                ? <a href={item.homepage} title='Skill homepage' target='_blank'>{item.name}: </a>
-                : <b>{item.name}: </b>
-            }
-            <span className='mg1l'>{item.description}</span>
-            {
-              item.settingPath
-                ? (
-                  <a target='_blank' className='mg1l fright' href={item.settingPath}>
-                    <Button type='primary' icon='setting'>Skill setting</Button>
-                  </a>
-                )
-                : null
-            }
+            <List.Item.Meta
+              title={
+                item.homepage
+                  ? <a href={item.homepage} title='Skill homepage' target='_blank'>{item.name}: </a>
+                  : <b>{item.name}: </b>
+              }
+              description={
+                <div>
+                  {item.description}
+                  {
+                    item.settingPath
+                      ? (
+                        <a target='_blank' className='mg1l' href={item.settingPath}>
+                          <Button type='ghost' icon='setting'>Skill setting</Button>
+                        </a>
+                      )
+                      : null
+                  }
+                </div>
+              }
+            />
           </List.Item>
         )}
       />

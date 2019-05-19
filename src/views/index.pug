@@ -9,13 +9,15 @@ html
     link(href='//developer.ringcentral.com/assets/images/favicon.ico?v=20181214-0738', type='image/vnd.microsoft.icon', rel='shortcut icon')
     link(rel='stylesheet', href='css/rcp.styles.bundle.css?' + version)
   body
+    #bg
     #container
     #content-loading loading...
     script.
       window.rc = !{JSON.stringify(_global)}
 
-    script(crossorigin, src='https://unpkg.com/react@16/umd/react.production.min.js')
-    script(crossorigin, src='https://unpkg.com/react-dom@16/umd/react-dom.production.min.js')
+    script(crossorigin, src='//unpkg.com/react@16/umd/react.production.min.js')
+    script(crossorigin, src='//unpkg.com/react-dom@16/umd/react-dom.production.min.js')
+    script(src='//unpkg.com/particle-bg/lib/particle-bg.umd.min.js')
     script.
       window.rc.onload = function() {
         document.body.removeChild(document.getElementById('content-loading'));

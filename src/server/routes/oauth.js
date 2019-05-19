@@ -9,6 +9,6 @@ export default async (req, res) => {
   }
   await user.ensureWebHook()
   let u = user.toJSON()
-  req.session.user = _.pick(u, ['id', 'email', 'name'])
+  req.session.user = _.pick(u, ['id', 'email', 'name', 'signed', 'enabled'])
   res.redirect('/')
 }

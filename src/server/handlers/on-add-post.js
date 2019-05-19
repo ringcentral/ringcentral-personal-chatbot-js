@@ -5,9 +5,17 @@ import { User } from '../models/ringcentral'
 
 function buildBotInfo (conf) {
   let skillsInfo = conf.skills.reduce((prev, s) => {
-    return prev + `* **${s.name || 'skill No name'}**: ${s.description || 'no description'}\n`
+    let name = s.name || 'skill No name'
+    name = s.homepage
+      ? `[${name}](${s.homepage})`
+      : name
+    return prev + `* **${name}**: ${s.description || 'no description'}\n`
   }, '')
-  return `This account is controlled by Bot: **${conf.name}** : ${conf.description}
+  let cn = conf.name
+  cn = cn.homepage
+    ? `[${cn}](${conf.homepage})`
+    : cn
+  return `This account is controlled by Bot: **${cn}** : ${conf.description}
 ${skillsInfo ? '**Skills:**\n' + skillsInfo : ''}`
 }
 
@@ -40,5 +48,11 @@ export default async (message, conf) => {
       text: buildBotInfo(conf)
     })
   }
-  return { text, textFiltered, group, user }
+  return {
+    text,
+    textFiltered,
+    group,
+    user,
+    shouldUseSignature: conf.shouldUseSignature
+  }
 }

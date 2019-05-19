@@ -8,6 +8,7 @@
 exports.name = 'Bot name'
 
 exports.description = 'Bot description'
+exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-bots/hello-bot-with-skills.js'
 
 // handle post added event
 exports.onPostAdd = async ({
@@ -15,10 +16,14 @@ exports.onPostAdd = async ({
   textFiltered, // text without metion user
   group,
   user,
-  handled // hanlded by prev skills
+  handled, // hanlded by prev skills
+  shouldUseSignature // should use signature like "send by bot skill xxx" in message.
 }) => {
+  let sign = shouldUseSignature
+    ? ` [send by [${exports.name}](${exports.homepage})]`
+    : ''
   await user.sendMessage(group.id, {
-    text: textFiltered
+    text: textFiltered + sign
   })
 }
 

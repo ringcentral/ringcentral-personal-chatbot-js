@@ -48,33 +48,35 @@ Object.defineProperty(User.prototype, 'rc', {
       process.env.RINGCENTRAL_CLIENT_SECRET,
       process.env.RINGCENTRAL_SERVER
     )
-    rc.token(this.token)
+    if (this.token) {
+      rc.token(this.token)
+    }
     return rc
   }
 })
 
-User.prototype.validate = async function () {
-  try {
-    await this.rc.get('/restapi/v1.0/account/~/extension/~')
-    return true
-  } catch (e) {
-    if (!e.data) {
-      throw e
-    }
-    const { errorCode } = e.data
-    if (errorCode === 'OAU-232' || errorCode === 'CMN-405') {
-      await this.check()
-      await User.destroy({
-        where: {
-          id: this.id
-        }
-      })
-      console.log(`User ${this.id} had been deleted`)
-      return false
-    }
-    throw e
-  }
-}
+// User.prototype.validate = async function () {
+//   try {
+//     await this.rc.get('/restapi/v1.0/account/~/extension/~')
+//     return true
+//   } catch (e) {
+//     if (!e.data) {
+//       throw e
+//     }
+//     const { errorCode } = e.data
+//     if (errorCode === 'OAU-232' || errorCode === 'CMN-405') {
+//       await this.check()
+//       await User.destroy({
+//         where: {
+//           id: this.id
+//         }
+//       })
+//       console.log(`User ${this.id} had been deleted`)
+//       return false
+//     }
+//     throw e
+//   }
+// }
 
 User.prototype.authorizeUri = function (state) {
   return this.rc.authorizeUri(process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/oauth', {

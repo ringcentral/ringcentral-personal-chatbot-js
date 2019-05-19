@@ -9,6 +9,7 @@ import initWebhook from './routes/webhook'
 import { initDb, viewDb } from './routes/admin'
 import oauth from './routes/oauth'
 import logout from './routes/logout'
+import api from './routes/api'
 import morgan from 'morgan'
 import { resolve } from 'path'
 
@@ -36,10 +37,10 @@ app.use(expressSession({
 app.set('views', resolve(__dirname, '../views'))
 app.set('view engine', 'pug')
 
-
 app.get('/logout', logout)
 app.get('/test', (req, res) => res.send('server running'))
 app.get('/rc/oauth', oauth)
+app.post('/api/action', api)
 app.put('/admin/setup-database', initDb)
 app.get('/admin/view-database', viewDb)
 

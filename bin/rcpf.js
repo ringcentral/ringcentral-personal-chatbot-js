@@ -2,12 +2,11 @@
 require('dotenv').config()
 const { resolve } = require('path')
 const program = require('commander')
-const { existsSync } = require('fs')
 
 const prodRunBotPath = resolve(__dirname, '../dist/server/run-bot.js')
 const prodRunBotDevPath = resolve(__dirname, '../src/server/run-bot.js')
 
-const runBot = existsSync(prodRunBotPath)
+const runBot = process.env.NODE_ENV === 'production'
   ? require(prodRunBotPath).default
   : require(prodRunBotDevPath).default
 

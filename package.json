@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-personal-chatbot",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "RingCentral personal chatbot framework",
   "main": "dist/server/index.js",
   "bin": {
@@ -14,7 +14,7 @@
     "c": "webpack-dev-server --open --progress --colors --config build/webpack.config.babel.js",
     "compile": "babel src/server --out-dir dist/server",
     "release": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress --colors --config build/webpack.config.babel.js",
-    "p": "node bin/rcpf.js example-bots/hello.js",
+    "p": "cross-env NODE_ENV=production node bin/rcpf.js example-bots/hello.js",
     "view": "node build/view.js",
     "build": "npm run clean && npm run compile && npm run release && npm run view",
     "clean": "node build/clean.js",

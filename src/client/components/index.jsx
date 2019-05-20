@@ -1,5 +1,5 @@
 import { Component } from 'react-subx'
-import { Button, List, Switch } from 'antd'
+import { Button, List, Switch, Tag } from 'antd'
 import logo from '../images/rc128.png'
 
 export default class App extends Component {
@@ -12,7 +12,10 @@ export default class App extends Component {
   renderFooter () {
     return (
       <div className='mg3t pd1y'>
-        About this project: <a href='https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js' target='_blank'>ringcentral-personal-chatbot</a>
+        Powered by
+        <a href='https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js' target='_blank' className='mg1x'>ringcentral-personal-chatbot</a>
+        and
+        <a href='https://github.com/tylerlong/subx' target='_blank' className='mg1x'>Subx</a>
       </div>
     )
   }
@@ -84,7 +87,7 @@ export default class App extends Component {
             src={logo}
           />
         </div>
-        <h1>Ringcentral personal bot system</h1>
+        <h1>Ringcentral personal bot system <Tag color='red'>Beta</Tag></h1>
         <p className='pd1y'>Bot is working now, you can close this page, bot will still work. You can stop the bot by come back and logout.</p>
         <div className='pd1b'>
           <Switch
@@ -117,7 +120,7 @@ export default class App extends Component {
             src={logo}
           />
         </div>
-        <h1>Ringcentral personal bot system</h1>
+        <h1>Ringcentral personal bot system <Tag color='red'>Beta</Tag></h1>
         <p className='pd2b pd1t'>
           <a href={window.rc.authUrl}>
             <Button icon='login' type='primary' size='large'>
@@ -125,6 +128,7 @@ export default class App extends Component {
             </Button>
           </a>
         </p>
+        <p className='pd1b'>After login, bot system will hook into your account, reply some message for you 😏.</p>
         {this.renderBotInfo()}
         {this.renderFooter()}
       </div>

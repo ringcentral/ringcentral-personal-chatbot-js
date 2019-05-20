@@ -26,7 +26,7 @@ export const Service = sequelize.define('user', {
   },
   privateChatOnly: {
     type: Sequelize.BOOLEAN,
-    defaultValue: true
+    defaultValue: false
   },
   data: { // all other data associcated with this user
     type: Sequelize.JSON

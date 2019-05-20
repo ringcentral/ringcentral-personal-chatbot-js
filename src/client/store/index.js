@@ -3,7 +3,7 @@ import fetch from './fetch'
 
 const store = SubX.create({
   logined: !!window.rc.user,
-  user: window.rc.user,
+  user: window.rc.user || {},
   botInfo: window.rc.botInfo,
   loading: false,
   async updateSigned (signed) {

@@ -1,5 +1,5 @@
 import { Component } from 'react-subx'
-import { Button, List, Switch, Tag } from 'antd'
+import { Button, List, Switch, Tag, Icon } from 'antd'
 import logo from '../images/rc128.png'
 
 export default class App extends Component {
@@ -77,36 +77,38 @@ export default class App extends Component {
   }
 
   renderLogined () {
-    let { loading, user, updateSigned } = this.props.store
+    let { loading, user = {}, updateSigned } = this.props.store
     let txt = 'Enabled bot message signature'
     return (
-      <div className='aligncenter wrap'>
-        <div className='pd2b'>
-          <img
-            className='iblock'
-            src={logo}
-          />
+      <div className='outer'>
+        <div className='header alignright mg3b pd2x pd1y'>
+          <span className='iblock logout-tip mg1r'>Only after logout, bot will stop working</span>
+          <a href='/logout' className='iblock'>
+            <Icon type='logout' /> logout
+          </a>
         </div>
-        <h1>Ringcentral personal bot system <Tag color='red'>Beta</Tag></h1>
-        <p className='pd1y'>Bot is working now, you can close this page, bot will still work. You can stop the bot by come back and logout.</p>
-        <div className='pd1b'>
-          <Switch
-            loading={loading}
-            checked={user.signed}
-            onChange={updateSigned}
-            checkedChildren={txt}
-            unCheckedChildren={txt}
-          />
-          <span className='mg1l'>When enabled, every message send by bot has a "[send by bot]" signature.</span>
+        <div className='aligncenter wrap'>
+          <div className='pd2b'>
+            <img
+              className='iblock'
+              src={logo}
+            />
+          </div>
+          <h1>Ringcentral personal bot system <Tag color='red'>Beta</Tag></h1>
+          <p className='pd1y'>Bot is working now, you can close this page, bot will still work. You can stop the bot by come back and logout.</p>
+          <div className='pd1b'>
+            <Switch
+              loading={loading}
+              checked={user.signed}
+              onChange={updateSigned}
+              checkedChildren={txt}
+              unCheckedChildren={txt}
+            />
+            <span className='mg1l'>When enabled, every message send by bot has a "[send by bot]" signature.</span>
+          </div>
+          {this.renderBotInfo()}
+          {this.renderFooter()}
         </div>
-        {this.renderBotInfo()}
-        <a href='/logout'>
-          <Button icon='logout'>
-            logout
-          </Button>
-        </a>
-        <p>Only after logout, bot will stop working</p>
-        {this.renderFooter()}
       </div>
     )
   }
@@ -137,7 +139,7 @@ export default class App extends Component {
 
   render () {
     let { logined } = this.props.store
-    return logined
+    return !logined
       ? this.renderLogined()
       : this.renderNotLogined()
   }

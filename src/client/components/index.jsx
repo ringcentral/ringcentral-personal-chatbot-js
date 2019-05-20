@@ -139,7 +139,7 @@ export default class App extends Component {
 
   render () {
     let { logined } = this.props.store
-    return !logined
+    return logined
       ? this.renderLogined()
       : this.renderNotLogined()
   }

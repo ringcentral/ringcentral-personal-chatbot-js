@@ -64,7 +64,7 @@ export default class App extends Component {
       return null
     }
     return (
-      <div className='bot-info mg2b'>
+      <div className='bot-info mg2b mg3t'>
         <h2>
           {botInfo.name}
         </h2>

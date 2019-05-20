@@ -12,6 +12,7 @@ exports.onPostAdd = async ({
   textFiltered, // text without metion user
   group,
   user,
+  isPrivateChat,
   handled, // hanlded by prev skills
   shouldUseSignature // should use signature like "send by bot skill xxx" in message.
 }) => {

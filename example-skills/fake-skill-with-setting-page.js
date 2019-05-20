@@ -8,6 +8,7 @@ exports.onPostAdd = async ({
   group,
   user,
   shouldUseSignature,
+  isPrivateChat,
   handled // hanlded by prev skills
 }) => {
   return false

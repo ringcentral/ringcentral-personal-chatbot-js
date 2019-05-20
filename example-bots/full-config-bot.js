@@ -17,6 +17,7 @@ exports.onPostAdd = async ({
   group,
   user,
   handled, // hanlded by prev skills
+  isPrivateChat,
   shouldUseSignature // should use signature like "send by bot skill xxx" in message.
 }) => {
   let sign = shouldUseSignature

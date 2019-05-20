@@ -17,6 +17,7 @@ exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-per
 exports.onPostAdd = async ({
   text, // original text
   textFiltered, // text without metion user
+  isPrivateChat,
   group,
   user,
   handled, // hanlded by prev skills

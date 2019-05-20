@@ -51,6 +51,7 @@ export default async (message, conf) => {
   return {
     text,
     textFiltered,
+    isPrivateChat,
     group,
     user,
     shouldUseSignature: conf.shouldUseSignature

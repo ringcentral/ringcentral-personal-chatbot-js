@@ -19,6 +19,7 @@ exports.onPostAdd = async ({
   text, // original text
   textFiltered, // text without metion user
   group,
+  isPrivateChat,
   user,
   handled // hanlded by prev skills
 }) => {

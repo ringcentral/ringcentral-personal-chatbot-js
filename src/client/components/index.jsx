@@ -76,6 +76,23 @@ export default class App extends Component {
     )
   }
 
+  renderTitle () {
+    return (
+      <div>
+        <div className='pd2b'>
+          <img
+            className='iblock'
+            src={logo}
+          />
+        </div>
+        <h1>
+          Ringcentral personal bot system
+          <sup className='mg1l'><Tag color='red'>Beta</Tag></sup>
+        </h1>
+      </div>
+    )
+  }
+
   renderLogined () {
     let { loading, user = {}, updateSigned } = this.props.store
     let txt = 'Enabled bot message signature'
@@ -88,14 +105,8 @@ export default class App extends Component {
           </a>
         </div>
         <div className='aligncenter wrap'>
-          <div className='pd2b'>
-            <img
-              className='iblock'
-              src={logo}
-            />
-          </div>
-          <h1>Ringcentral personal bot system <Tag color='red'>Beta</Tag></h1>
-          <p className='pd1y'>Bot is working now, you can close this page, bot will still work. You can stop the bot by come back and logout.</p>
+          {this.renderTitle()}
+          <p className='pd1y'>Bot is working now, you can close this page, bot will still work. You can stop the bot by come back and <a href='/logout'>logout</a>.</p>
           <div className='pd1b'>
             <Switch
               loading={loading}
@@ -116,16 +127,7 @@ export default class App extends Component {
   renderNotLogined () {
     return (
       <div className='aligncenter wrap'>
-        <div className='pd2b'>
-          <img
-            className='iblock'
-            src={logo}
-          />
-        </div>
-        <h1>
-          Ringcentral personal bot system
-          <sup><Tag color='red'>Beta</Tag></sup>
-        </h1>
+        {this.renderTitle()}
         <p className='pd1b pd1t'>
           <a href={window.rc.authUrl}>
             <Button icon='login' type='primary' size='large'>

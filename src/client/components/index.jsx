@@ -122,8 +122,11 @@ export default class App extends Component {
             src={logo}
           />
         </div>
-        <h1>Ringcentral personal bot system <Tag color='red'>Beta</Tag></h1>
-        <p className='pd2b pd1t'>
+        <h1>
+          Ringcentral personal bot system
+          <sup><Tag color='red'>Beta</Tag></sup>
+        </h1>
+        <p className='pd1b pd1t'>
           <a href={window.rc.authUrl}>
             <Button icon='login' type='primary' size='large'>
               Login

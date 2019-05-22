@@ -67,7 +67,7 @@ npm run build
 # run prodcution code
 npm run p
 # or
-node -r dotenv/config bin/rcpf.js example-bots/hello.js
+cross-env NODE_ENV=production node bin/rcpf.js example-bots/hello.js
 
 # proxy for production code
 npm run ngrok-p

@@ -10,3 +10,6 @@ db.sqlite
 /example-bots/
 /example-skills/
 /screenshots/
+.env.sample
+.env
+/docs

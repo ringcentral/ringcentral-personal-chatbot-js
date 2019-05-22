@@ -33,9 +33,15 @@ export default class App extends Component {
           <List.Item>
             <List.Item.Meta
               title={
-                item.homepage
-                  ? <a href={item.homepage} title='Skill homepage' target='_blank'>{item.name}: </a>
-                  : <b>{item.name}: </b>
+                <span>
+                  {
+                    item.homepage
+                      ? <a href={item.homepage} title='Skill homepage' target='_blank'><Icon type='home' /></a>
+                      : null
+                  }
+                  <b className='mg1l'>{item.name}</b>
+                </span>
+
               }
               description={
                 <div>

@@ -42,7 +42,7 @@ Login to [developer.ringcentral.com](https://developer.ringcentral.com/) and cre
 - Permissions Needed: Accounts, Contacts, Glip, Glip Internal, Read Accounts, Read Client Info, Read Contacts, Read Presence, Webhook Subscriptions
 - Set OAuth Redirect URI: Using your ngrok HTTPS URL from above, enter in the following value: `https://xxxx.ap.ngrok.io/rc/oauth`.
 
-<a href="https://developer.ringcentral.com/new-app?name=Sample+Personal+Bot+App&desc=A+sample+app+created+in+conjunction+with+the+ringcentral+personal+bot+framework&public=true&type=BrowserBased&carriers=7710,7310,3420&permissions=Accounts,Contacts,Glip,GlipInternal,ReadAccounts,ReadClientInfo,ReadContacts,ReadPresence,WebhookSubscriptions&redirectUri=" target="_blank">Click to create app</a>
+<a href="https://developer.ringcentral.com/new-app?name=Sample+Personal+Bot+App&desc=A+sample+app+created+in+conjunction+with+the+ringcentral+personal+bot+framework&public=true&type=BrowserBased&carriers=7710,7310,3420&permissions=Accounts,Contacts,Glip,GlipInternal,ReadAccounts,ReadClientInfo,ReadContacts,ReadMessages,ReadPresence,WebhookSubscriptions&redirectUri=" target="_blank">Click to create app</a>
 
 ```bash
 cp .env.sample .env

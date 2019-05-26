@@ -26,7 +26,7 @@ export default (conf) => {
       title: pack.name,
       sessionId: id,
       user: user || null,
-      authUrl: inst.authorizeUri(id),
+      authUrl: inst.authorizeUri(user ? 'user' : id),
       botInfo
     }
     data._global = copy(data)

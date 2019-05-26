@@ -99,20 +99,48 @@ export default class App extends Component {
     )
   }
 
+  renderSwitch() {
+    let { enabled } = this.props.store.user
+    let { swithing, updateEnable } = this.props.store
+    if (enabled) {
+      return (
+        <Button
+          type='danger'
+          icon='disconnect'
+          loading={swithing}
+          onClick={() => updateEnable(false)}
+        >Turn off Bot</Button>
+      )
+    } else {
+      return (
+        <a href={window.rc.authUrl}>
+          <Button
+            type='primary'
+            icon='check'
+            loading={swithing}
+          >Turn on Bot</Button>
+        </a>
+      )
+    }
+  }
+
   renderLogined () {
     let { loading, user = {}, updateSigned } = this.props.store
     let txt = 'Enabled bot message signature'
+    let { enabled } = user
+    let txt1 = enabled
+      ? 'Bot is working now, you can close this page, bot will still work. You can stop the bot by come back and '
+      : 'Bot is offline now, you can '
     return (
       <div className='outer'>
         <div className='header alignright mg3b pd2x pd1y'>
-          <span className='iblock logout-tip mg1r'>Only after logout, bot will stop working</span>
           <a href='/logout' className='iblock'>
             <Icon type='logout' /> logout
           </a>
         </div>
         <div className='aligncenter wrap'>
           {this.renderTitle()}
-          <p className='pd1y'>Bot is working now, you can close this page, bot will still work. You can stop the bot by come back and <a href='/logout'>logout</a>.</p>
+          <p className='pd1y'>{txt1} {this.renderSwitch()}.</p>
           <div className='pd1b'>
             <Switch
               loading={loading}

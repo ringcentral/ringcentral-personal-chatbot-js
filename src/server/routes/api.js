@@ -6,7 +6,8 @@
 import { User } from '../models/ringcentral'
 
 const supportedActions = [
-  'bot-signature-switch'
+  'bot-signature-switch',
+  'bot-switch'
 ]
 
 export default async (req, res) => {
@@ -35,6 +36,24 @@ export default async (req, res) => {
       }
     })
     req.session.user.signed = !!update.signed
+  } else if (action === 'bot-switch') {
+    let enabled = !!update.enabled
+    let user = await User.findByPk(id)
+    if (enabled || !user) {
+      res.status(401)
+      return res.send('user not find')
+    }
+    if (req.session.user.enabled && !enabled) {
+      await user.ensureWebHook(true)
+    }
+    result = await User.update({
+      enabled
+    }, {
+      where: {
+        id
+      }
+    })
+    req.session.user.enabled = enabled
   }
   res.send({
     status: 0,

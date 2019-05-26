@@ -10,7 +10,7 @@ export const subscribeInterval = () => '/restapi/v1.0/subscription/~?threshold=5
 
 export class User extends Service {}
 
-User.init = async ({ code }) => {
+User.init = async ({ code, state }) => {
   const rc = new RingCentral(
     process.env.RINGCENTRAL_CLIENT_ID,
     process.env.RINGCENTRAL_CLIENT_SECRET,
@@ -27,18 +27,25 @@ User.init = async ({ code }) => {
   let user = await User.findOne({
     where
   })
+  let existInDB = !!user
   if (user) {
-    await User.update({
+    let update = {
       token
-    }, {
+    }
+    if (state === 'user') {
+      update.enabled = true
+    }
+    await User.update(update, {
       where
     })
-    return user
+    Object.assign(user, update)
+    return { user, existInDB }
   }
-  return User.create({
+  user = await User.create({
     id: token.owner_id,
     token
   })
+  return { user, existInDB }
 }
 
 Object.defineProperty(User.prototype, 'rc', {

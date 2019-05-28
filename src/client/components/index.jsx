@@ -92,7 +92,7 @@ export default class App extends Component {
           />
         </div>
         <h1>
-          Ringcentral personal bot system
+          RingCentral personal bot system
           <sup className='mg1l'><Tag color='red'>Beta</Tag></sup>
         </h1>
       </div>

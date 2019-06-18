@@ -12,7 +12,17 @@ import logout from './routes/logout'
 import api from './routes/api'
 import morgan from 'morgan'
 import { resolve } from 'path'
+import basicAuth from 'express-basic-auth'
 
+const {
+  RINGCENTRAL_CHATBOT_ADMIN_USERNAME,
+  RINGCENTRAL_CHATBOT_ADMIN_PASSWORD
+} = process.env
+const auth = basicAuth({
+  users: {
+    [RINGCENTRAL_CHATBOT_ADMIN_USERNAME]: RINGCENTRAL_CHATBOT_ADMIN_PASSWORD
+  }
+})
 const SessionStore = require('@electerm/express-session-sequelize')(expressSession.Store)
 const sequelizeSessionStore = new SessionStore({
   db: sequelize,
@@ -40,8 +50,8 @@ app.get('/logout', logout)
 app.get('/test', (req, res) => res.send('server running'))
 app.get('/rc/oauth', oauth)
 app.post('/api/action', api)
-app.put('/admin/setup-database', initDb)
-app.get('/admin/view-database', viewDb)
+app.put('/admin/setup-database', auth, initDb)
+app.get('/admin/view-database', auth, viewDb)
 
 export const initApp = (conf) => {
   app.get('/', viewIndex(conf))

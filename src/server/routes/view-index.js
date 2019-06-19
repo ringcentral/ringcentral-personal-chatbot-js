@@ -9,6 +9,7 @@ import { User } from '../models/ringcentral'
 
 const pack = require(resolve(__dirname, '../../../package.json'))
 const inst = new User()
+const { RINGCENTRAL_CHATBOT_SERVER } = process.env
 
 function buildBotInfo (conf) {
   let props = ['name', 'description', 'settingPath', 'homepage']
@@ -26,6 +27,7 @@ export default (conf) => {
       title: pack.name,
       sessionId: id,
       user: user || null,
+      server: RINGCENTRAL_CHATBOT_SERVER,
       authUrl: inst.authorizeUri(user ? 'user' : id),
       botInfo
     }

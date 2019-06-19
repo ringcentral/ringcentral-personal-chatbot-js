@@ -88,7 +88,7 @@ export default class App extends Component {
         <div className='pd2b'>
           <img
             className='iblock'
-            src={logo}
+            src={window.rc.server + logo}
           />
         </div>
         <h1>

@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-personal-chatbot",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "RingCentral personal chatbot framework",
   "main": "dist/server/index.js",
   "bin": {
@@ -78,7 +78,6 @@
     "pug": "^2.0.3",
     "ringcentral-js-concise": "^0.7.7",
     "sequelize": "^5.8.5",
-    "serverless-http": "^2.0.1",
     "sqlite3": "^4.0.4",
     "timeout-as-promise": "^1.0.0"
   },

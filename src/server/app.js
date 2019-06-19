@@ -16,7 +16,8 @@ import basicAuth from 'express-basic-auth'
 
 const {
   RINGCENTRAL_CHATBOT_ADMIN_USERNAME,
-  RINGCENTRAL_CHATBOT_ADMIN_PASSWORD
+  RINGCENTRAL_CHATBOT_ADMIN_PASSWORD,
+  SERVER_HOME = '/'
 } = process.env
 const auth = basicAuth({
   users: {
@@ -54,7 +55,7 @@ app.put('/admin/setup-database', auth, initDb)
 app.get('/admin/view-database', auth, viewDb)
 
 export const initApp = (conf) => {
-  app.get('/', viewIndex(conf))
+  app.get(SERVER_HOME, viewIndex(conf))
   app.post('/rc/webhook', initWebhook(conf))
   for (let skill of conf.skills) {
     if (skill.appExtend) {

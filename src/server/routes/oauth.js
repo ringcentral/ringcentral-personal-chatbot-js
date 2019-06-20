@@ -1,5 +1,6 @@
 import { User } from '../models/ringcentral'
 import _ from 'lodash'
+import prefix from '../common/extra-path'
 
 const { SERVER_HOME = '/' } = process.env
 
@@ -11,5 +12,5 @@ export default async (req, res) => {
   }
   let u = user.toJSON()
   req.session.user = _.pick(u, ['id', 'email', 'name', 'signed', 'enabled'])
-  res.redirect(SERVER_HOME)
+  res.redirect(prefix + SERVER_HOME)
 }

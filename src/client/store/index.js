@@ -9,7 +9,7 @@ const store = SubX.create({
   swithing: false,
   async updateSigned (signed) {
     store.loading = true
-    let res = await fetch.post('/api/action', {
+    let res = await fetch.post(window.rc.server + '/api/action', {
       action: 'bot-signature-switch',
       update: {
         signed
@@ -22,7 +22,7 @@ const store = SubX.create({
   },
   async updateEnable (enabled) {
     store.swithing = true
-    let res = await fetch.post('/api/action', {
+    let res = await fetch.post(window.rc.server + '/api/action', {
       action: 'bot-switch',
       update: {
         enabled

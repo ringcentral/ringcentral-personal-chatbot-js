@@ -2,6 +2,7 @@ import { Component } from 'react-subx'
 import { Button, List, Switch, Tag, Icon } from 'antd'
 import logo from '../images/rc128.png'
 
+const { server } = window.rc
 export default class App extends Component {
   componentDidMount () {
     window.particleBg('#bg', {
@@ -49,7 +50,7 @@ export default class App extends Component {
                   {
                     item.settingPath
                       ? (
-                        <a target='_blank' className='mg1l' href={item.settingPath}>
+                        <a target='_blank' className='mg1l' href={server + item.settingPath}>
                           <Button type='ghost' icon='setting'>Skill setting</Button>
                         </a>
                       )
@@ -88,7 +89,7 @@ export default class App extends Component {
         <div className='pd2b'>
           <img
             className='iblock'
-            src={window.rc.server + logo}
+            src={server + logo}
           />
         </div>
         <h1>
@@ -134,7 +135,7 @@ export default class App extends Component {
     return (
       <div className='outer'>
         <div className='header alignright mg3b pd2x pd1y'>
-          <a href='/logout' className='iblock'>
+          <a href={`${server}/logout`} className='iblock'>
             <Icon type='logout' /> logout
           </a>
         </div>

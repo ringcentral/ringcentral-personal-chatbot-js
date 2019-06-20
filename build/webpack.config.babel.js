@@ -33,7 +33,7 @@ const config = {
   },
   output: {
     path: resolve(__dirname, '../dist/static'),
-    filename: 'js/[name].' + version + '.bundle.js',
+    filename: 'js/[name].bundle.js',
     publicPath: '/',
     chunkFilename: 'js/[name].bundle.js',
     libraryTarget: 'var'

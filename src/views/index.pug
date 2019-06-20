@@ -7,7 +7,7 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     title #{title}
     link(href='//developer.ringcentral.com/assets/images/favicon.ico?v=20181214-0738', type='image/vnd.microsoft.icon', rel='shortcut icon')
-    link(rel='stylesheet', href='//unpkg.com/ringcentral-personal-chatbot/dist/static/css/rcp.styles.bundle.css?' + version)
+    link(rel='stylesheet', href=server + '/css/rcp.styles.bundle.css?' + version)
   body
     #bg
     #container
@@ -22,4 +22,4 @@ html
       window.rc.onload = function() {
         document.body.removeChild(document.getElementById('content-loading'));
       };
-    script(src='//unpkg.com/ringcentral-personal-chatbot/dist/static/js/rcp.bundle.js?' + version, onload='window.rc.onload()')
+    script(src=server + '/js/rcp.bundle.js?' + version, onload='window.rc.onload()')

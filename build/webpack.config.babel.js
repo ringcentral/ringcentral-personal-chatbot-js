@@ -35,7 +35,7 @@ const config = {
     path: resolve(__dirname, '../dist/static'),
     filename: 'js/[name].' + version + '.bundle.js',
     publicPath: '/',
-    chunkFilename: 'js/[name].' + version + 'bundle.js',
+    chunkFilename: 'js/[name].bundle.js',
     libraryTarget: 'var'
   },
   module: {

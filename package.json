@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-personal-chatbot",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "RingCentral personal chatbot framework",
   "main": "dist/server/index.js",
   "bin": {

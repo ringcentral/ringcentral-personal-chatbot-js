@@ -2,7 +2,7 @@ import { Component } from 'react-subx'
 import { Button, List, Switch, Tag, Icon } from 'antd'
 import logo from '../images/rc128.png'
 
-const { server } = window.rc
+const { server, cdn } = window.rc
 export default class App extends Component {
   componentDidMount () {
     window.particleBg('#bg', {
@@ -89,7 +89,7 @@ export default class App extends Component {
         <div className='pd2b'>
           <img
             className='iblock'
-            src={server + logo}
+            src={cdn + logo}
           />
         </div>
         <h1>

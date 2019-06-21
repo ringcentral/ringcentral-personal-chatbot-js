@@ -1,8 +1,10 @@
 import { User } from '../models/ringcentral'
 import _ from 'lodash'
-import prefix from '../common/extra-path'
+import copy from 'json-deep-copy'
+import jwt from 'jsonwebtoken'
+import { pack, jwtPrefix, extraPath } from '../common/constants'
 
-const { SERVER_HOME = '/' } = process.env
+const { SERVER_HOME = '/', SERVER_SECRET } = process.env
 
 export default async (req, res) => {
   const { code, state } = req.query
@@ -10,7 +12,16 @@ export default async (req, res) => {
   if (state === 'user' || !existInDB) {
     await user.ensureWebHook()
   }
-  let u = user.toJSON()
-  req.session.user = _.pick(u, ['id', 'email', 'name', 'signed', 'enabled'])
-  res.redirect(prefix + SERVER_HOME)
+  let { id } = user
+  var token = jwt.sign({
+    id
+  }, SERVER_SECRET, { expiresIn: '60d' })
+  let data = {
+    redirect: extraPath + SERVER_HOME,
+    title: pack.name,
+    jwtPrefix,
+    token
+  }
+  data._global = copy(data)
+  res.render('auth', data)
 }

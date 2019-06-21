@@ -1,5 +1,5 @@
 import { Component } from 'react-subx'
-import { Button, List, Switch, Tag, Icon } from 'antd'
+import { Button, List, Switch, Tag, Icon, Spin } from 'antd'
 import logo from '../images/rc128.png'
 
 const { server, cdn } = window.rc
@@ -8,6 +8,10 @@ export default class App extends Component {
     window.particleBg('#bg', {
       color: '#eee'
     })
+  }
+
+  fetchUserInfo = () => {
+    this.props.store.getUser()
   }
 
   renderFooter () {
@@ -100,7 +104,7 @@ export default class App extends Component {
     )
   }
 
-  renderSwitch() {
+  renderSwitch () {
     let { enabled } = this.props.store.user
     let { swithing, updateEnable } = this.props.store
     if (enabled) {
@@ -160,16 +164,19 @@ export default class App extends Component {
   }
 
   renderNotLogined () {
+    let { fetchingUser } = this.props.store
     return (
       <div className='aligncenter wrap'>
         {this.renderTitle()}
-        <p className='pd1b pd1t'>
-          <a href={window.rc.authUrl}>
-            <Button icon='login' type='primary' size='large'>
-              Login
-            </Button>
-          </a>
-        </p>
+        <Spin spinning={fetchingUser}>
+          <div className='pd1b pd1t'>
+            <a href={window.rc.authUrl}>
+              <Button icon='login' type='primary' size='large'>
+                Login
+              </Button>
+            </a>
+          </div>
+        </Spin>
         <p className='pd1b'>After login, bot system will hook into your account, reply some message for you 😏.</p>
         {this.renderBotInfo()}
         {this.renderFooter()}

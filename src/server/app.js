@@ -13,7 +13,11 @@ import api from './routes/api'
 import morgan from 'morgan'
 import { resolve } from 'path'
 import basicAuth from 'express-basic-auth'
+import jwt from 'express-jwt'
 
+cosnt jwtAuth = jwt({
+  secret: process.env.SERVER_SECRET
+})
 const {
   RINGCENTRAL_CHATBOT_ADMIN_USERNAME,
   RINGCENTRAL_CHATBOT_ADMIN_PASSWORD,
@@ -50,7 +54,7 @@ app.set('view engine', 'pug')
 app.get('/logout', logout)
 app.get('/test', (req, res) => res.send('server running'))
 app.get('/rc/oauth', oauth)
-app.post('/api/action', api)
+app.post('/api/action', jwtAuth, api)
 app.put('/admin/setup-database', auth, initDb)
 app.get('/admin/view-database', auth, viewDb)
 

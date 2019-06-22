@@ -15,7 +15,7 @@ html
       window.rc = !{JSON.stringify(_global)}
     script.
       window.onload = function() {
-        localstrorage.removeItem(window.rc.jwtPrefix + ':rcpf-jwt-token' + window.rc.jwtPrefix)
+        localStorage.removeItem(window.rc.jwtPrefix + ':rcpf-jwt-token')
         setTimeout(function() {
           window.location.href = window.rc.redirect
         }, 100)

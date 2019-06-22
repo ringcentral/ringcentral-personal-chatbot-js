@@ -38,10 +38,15 @@ const store = SubX.create({
     store.fetchingUser = true
     let res = await fetch.post(window.rc.server + '/api/action', {
       action: 'get-user'
+    }, {
+      handleErr: () => {
+        console.log('fetch user error')
+      }
     })
     store.fetchingUser = false
     if (res) {
       store.user = res.result
+      store.logined = !!res.result.id
     }
   }
 })

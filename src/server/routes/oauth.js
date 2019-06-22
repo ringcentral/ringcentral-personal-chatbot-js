@@ -1,5 +1,4 @@
 import { User } from '../models/ringcentral'
-import _ from 'lodash'
 import copy from 'json-deep-copy'
 import jwt from 'jsonwebtoken'
 import { pack, jwtPrefix, extraPath } from '../common/constants'

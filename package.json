@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-personal-chatbot",
-  "version": "0.7.3",
+  "version": "0.8.0",
   "description": "RingCentral personal chatbot framework",
   "main": "dist/server/index.js",
   "bin": {
@@ -65,15 +65,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.4",
-    "@electerm/express-session-sequelize": "^1.1.0",
     "body-parser": "^1.19.0",
     "commander": "^2.20.0",
-    "cookie-parser": "^1.4.4",
     "dotenv": "6.2.0",
     "express": "^4.16.4",
     "express-basic-auth": "^1.2.0",
     "express-jwt": "^5.3.1",
-    "express-session": "^1.16.1",
     "json-deep-copy": "^1.0.2",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",

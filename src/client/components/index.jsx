@@ -8,6 +8,7 @@ export default class App extends Component {
     window.particleBg('#bg', {
       color: '#eee'
     })
+    this.fetchUserInfo()
   }
 
   fetchUserInfo = () => {
@@ -107,6 +108,7 @@ export default class App extends Component {
   renderSwitch () {
     let { enabled } = this.props.store.user
     let { swithing, updateEnable } = this.props.store
+    let turnOnUrl = window.rc.authUrlDefault.replace(window.rc.defaultState, 'user')
     if (enabled) {
       return (
         <Button
@@ -118,7 +120,7 @@ export default class App extends Component {
       )
     } else {
       return (
-        <a href={window.rc.authUrl}>
+        <a href={turnOnUrl}>
           <Button
             type='primary'
             icon='check'
@@ -165,12 +167,13 @@ export default class App extends Component {
 
   renderNotLogined () {
     let { fetchingUser } = this.props.store
+    console.log(window.rc.authUrlDefault)
     return (
       <div className='aligncenter wrap'>
         {this.renderTitle()}
         <Spin spinning={fetchingUser}>
           <div className='pd1b pd1t'>
-            <a href={window.rc.authUrl}>
+            <a href={window.rc.authUrlDefault}>
               <Button icon='login' type='primary' size='large'>
                 Login
               </Button>

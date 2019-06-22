@@ -4,6 +4,7 @@
  */
 
 import { User } from '../models/ringcentral'
+import _ from 'lodash'
 
 const supportedActions = [
   'bot-signature-switch',
@@ -30,6 +31,9 @@ export default async (req, res) => {
   let result
   if (action === 'get-user') {
     result = await User.findByPk(id)
+    result = _.pick(result || {}, [
+      'id', 'enabled', 'signed', 'privateChatOnly', 'data'
+    ])
   } else if (action === 'bot-signature-switch') {
     result = await User.update({
       signed: update.signed
@@ -38,7 +42,6 @@ export default async (req, res) => {
         id
       }
     })
-    req.user.signed = !!update.signed
   } else if (action === 'bot-switch') {
     let enabled = !!update.enabled
     let user = await User.findByPk(id)
@@ -56,10 +59,9 @@ export default async (req, res) => {
         id
       }
     })
-    req.user.enabled = enabled
   }
   res.send({
     status: 0,
-    result
+    result: result
   })
 }

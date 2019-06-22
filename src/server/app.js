@@ -12,7 +12,7 @@ import { resolve } from 'path'
 import basicAuth from 'express-basic-auth'
 import jwt from 'express-jwt'
 
-const jwtAuth = jwt({
+export const jwtAuth = jwt({
   secret: process.env.SERVER_SECRET
 })
 const {

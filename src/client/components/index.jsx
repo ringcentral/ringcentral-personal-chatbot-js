@@ -26,69 +26,54 @@ export default class App extends Component {
     )
   }
 
-  renderSkills (skills) {
+  renderSkills (skills = this.props.store.botInfo.skills) {
     if (!skills.length) {
       return null
     }
     return (
-      <List
-        dataSource={skills}
-        bordered
-        header={<div>Loaded Skills</div>}
-        renderItem={item => (
-          <List.Item>
-            <List.Item.Meta
-              title={
-                <span>
-                  {
-                    item.homepage
-                      ? <a href={item.homepage} title='Skill homepage' target='_blank'><Icon type='home' /></a>
-                      : null
-                  }
-                  <b className='mg1l'>{item.name}</b>
-                </span>
+      <div className='pd2y'>
+        <List
+          dataSource={skills}
+          bordered
+          header={<div>Loaded Skills</div>}
+          renderItem={item => (
+            <List.Item>
+              <List.Item.Meta
+                title={
+                  <span>
+                    {
+                      item.homepage
+                        ? <a href={item.homepage} title='Skill homepage' target='_blank'><Icon type='home' /></a>
+                        : null
+                    }
+                    <b className='mg1l'>{item.name}</b>
+                  </span>
 
-              }
-              description={
-                <div>
-                  {item.description}
-                  {
-                    item.settingPath
-                      ? (
-                        <a target='_blank' className='mg1l' href={server + item.settingPath}>
-                          <Button type='ghost' icon='setting'>Skill setting</Button>
-                        </a>
-                      )
-                      : null
-                  }
-                </div>
-              }
-            />
-          </List.Item>
-        )}
-      />
-    )
-  }
-
-  renderBotInfo () {
-    let { botInfo } = this.props.store
-    if (!botInfo) {
-      return null
-    }
-    return (
-      <div className='bot-info mg2b mg3t'>
-        <h2>
-          {botInfo.name}
-        </h2>
-        <p className='pd1b'>{botInfo.description}</p>
-        {
-          this.renderSkills(botInfo.skills)
-        }
+                }
+                description={
+                  <div>
+                    {item.description}
+                    {
+                      item.settingPath
+                        ? (
+                          <a target='_blank' className='mg1l' href={server + item.settingPath}>
+                            <Button type='ghost' icon='setting'>Skill setting</Button>
+                          </a>
+                        )
+                        : null
+                    }
+                  </div>
+                }
+              />
+            </List.Item>
+          )}
+        />
       </div>
     )
   }
 
   renderTitle () {
+    let { botInfo } = this.props.store
     return (
       <div>
         <div className='pd2b'>
@@ -98,9 +83,10 @@ export default class App extends Component {
           />
         </div>
         <h1>
-          RingCentral personal bot system
+          {botInfo.name}
           <sup className='mg1l'><Tag color='red'>Beta</Tag></sup>
         </h1>
+        <p className='pd1b'>{botInfo.description}</p>
       </div>
     )
   }
@@ -158,7 +144,7 @@ export default class App extends Component {
             />
             <span className='mg1l'>When enabled, every message send by bot has a "[send by bot]" signature.</span>
           </div>
-          {this.renderBotInfo()}
+          {this.renderSkills()}
           {this.renderFooter()}
         </div>
       </div>
@@ -167,7 +153,6 @@ export default class App extends Component {
 
   renderNotLogined () {
     let { fetchingUser } = this.props.store
-    console.log(window.rc.authUrlDefault)
     return (
       <div className='aligncenter wrap'>
         {this.renderTitle()}
@@ -181,7 +166,7 @@ export default class App extends Component {
           </div>
         </Spin>
         <p className='pd1b'>After login, bot system will hook into your account, reply some message for you 😏.</p>
-        {this.renderBotInfo()}
+        {this.renderSkills()}
         {this.renderFooter()}
       </div>
     )

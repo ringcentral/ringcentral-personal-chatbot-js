@@ -13,6 +13,7 @@ exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-per
 // handle post added event
 exports.onPostAdd = async ({
   text, // original text
+  isTalkToSelf, // post message to self with message start with '#me'
   textFiltered, // text without metion user
   group,
   user,

@@ -4,15 +4,15 @@ RingCentral personal chatbot framework.
 
 ![ ](https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-skill-faq/raw/master/screenshots/s1.png)
 
-- [Quick start](#quick-start)
-- [Build and run in production](#build-and-run-in-production)
-- [Use as CLI tool](#use-as-cli-tool)
-- [Write a personal bot](#write-a-personal-bot)
-- [Write/use a personal bot skill](#writeuse-a-personal-bot-skill)
-- [Build-in commands](#build-in-commands)
-- [Origin](#origin)
-- [Credits](#credits)
-- [License](#license)
+- [Quick start](#Quick-start)
+- [Build and run in production](#Build-and-run-in-production)
+- [Use as CLI tool](#Use-as-CLI-tool)
+- [Write a personal bot](#Write-a-personal-bot)
+- [Write/use a personal bot skill](#Writeuse-a-personal-bot-skill)
+- [Build-in commands](#Build-in-commands)
+- [Origin](#Origin)
+- [Credits](#Credits)
+- [License](#License)
 
 ## Quick start
 
@@ -42,7 +42,7 @@ Login to [developer.ringcentral.com](https://developer.ringcentral.com/) and cre
 - Permissions Needed: Accounts, Contacts, Glip, Glip Internal, Read Accounts, Read Messages, Read Client Info, Read Contacts, Read Presence, Webhook Subscriptions
 - Set OAuth Redirect URI: Using your ngrok HTTPS URL from above, enter in the following value: `https://xxxx.ap.ngrok.io/rc/oauth`.
 
-<a href="https://developer.ringcentral.com/new-app?name=Sample+Personal+Bot+App&desc=A+sample+app+created+in+conjunction+with+the+ringcentral+personal+bot+framework&public=true&type=BrowserBased&carriers=7710,7310,3420&permissions=Accounts,Contacts,Glip,GlipInternal,ReadAccounts,ReadClientInfo,ReadContacts,ReadMessages,ReadPresence,WebhookSubscriptions&redirectUri=" target="_blank">Click to create app</a>
+<a href="https://developer.ringcentral.com/new-app?name=Sample+Personal+Bot+App&desc=A+sample+app+created+in+conjunction+with+the+ringcentral+personal+bot+framework&public=true&type=BrowserBased&carriers=7710,7310,3420&permissions=Accounts,Contacts,Glip,GlipInternal,ReadAccounts,ReadClientInfo,ReadContacts,ReadMessages,ReadPresence,SubscriptionWebhook&redirectUri=" target="_blank">Click to create app</a>
 
 ```bash
 cp .env.sample .env

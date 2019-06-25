@@ -87,6 +87,14 @@ export default class App extends Component {
           <sup className='mg1l'><Tag color='red'>Beta</Tag></sup>
         </h1>
         <p className='pd1b'>{botInfo.description}</p>
+        <p>
+          Built-in commands:
+          <b className='mg1l'>__help__</b>
+        </p>
+        <p className='pd1b'>
+          You can talk to self by post message starts with
+          <b className='mg1l'>#me </b>
+        </p>
       </div>
     )
   }

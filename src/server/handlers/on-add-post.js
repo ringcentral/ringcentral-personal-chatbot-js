@@ -21,20 +21,21 @@ ${skillsInfo ? '**Skills:**\n' + skillsInfo : ''}`
 
 export default async (message, conf) => {
   console.log('The user received a new message')
-  let text = message.body.text
+  let { text } = message.body
   if (!text) {
     return // not a text message
   }
   const { ownerId } = message
   const { creatorId } = message.body
-  if (ownerId === creatorId) {
+  const isTalkToSelf = ownerId === creatorId && text.startsWith('#me ')
+  if (ownerId === creatorId && !isTalkToSelf) {
     return // bot should not talk to itself to avoid dead-loop conversation
   }
   const { groupId } = message.body
   const user = await User.findByPk(ownerId)
   const group = await user.getGroup(groupId)
   const isPrivateChat = group.members.length <= 2
-  if (!isPrivateChat && (
+  if (!isPrivateChat && !isTalkToSelf && (
     !message.body.mentions ||
     !message.body.mentions.some(m => m.type === 'Person' && m.id === ownerId)
   )) {
@@ -42,15 +43,17 @@ export default async (message, conf) => {
     return
   }
   const regex = new RegExp(`!\\[:Person\\]\\(${user.id}\\)`)
-  const textFiltered = text.replace(regex, ' ').trim()
+  const textFiltered = text.replace(regex, ' ').replace(/^#me /, '').trim()
   if (textFiltered === '__test__' || textFiltered === '__help__') {
     await user.sendMessage(groupId, {
       text: buildBotInfo(conf)
     })
   }
+
   return {
     text,
     textFiltered,
+    isTalkToSelf,
     isPrivateChat,
     group,
     user,

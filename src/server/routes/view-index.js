@@ -3,12 +3,9 @@
  */
 
 import copy from 'json-deep-copy'
-import { resolve } from 'path'
 import _ from 'lodash'
-import { User } from '../models/ringcentral'
+import { pack, jwtPrefix, authUrlDefault, defaultState } from '../common/constants'
 
-const pack = require(resolve(__dirname, '../../../package.json'))
-const inst = new User()
 const { RINGCENTRAL_CHATBOT_SERVER, CDN } = process.env
 
 function buildBotInfo (conf) {
@@ -21,15 +18,14 @@ function buildBotInfo (conf) {
 export default (conf) => {
   let botInfo = buildBotInfo(conf)
   return (req, res) => {
-    let { id, user } = req.session
     let data = {
       version: pack.version,
       title: pack.name,
-      sessionId: id,
-      user: user || null,
       server: RINGCENTRAL_CHATBOT_SERVER,
       cdn: CDN || RINGCENTRAL_CHATBOT_SERVER,
-      authUrl: inst.authorizeUri(user ? 'user' : id),
+      jwtPrefix,
+      defaultState,
+      authUrlDefault,
       botInfo
     }
     data._global = copy(data)

@@ -1,5 +1,5 @@
 import { Component } from 'react-subx'
-import { Button, List, Switch, Tag, Icon } from 'antd'
+import { Button, List, Switch, Tag, Icon, Spin } from 'antd'
 import logo from '../images/rc128.png'
 
 const { server, cdn } = window.rc
@@ -8,6 +8,11 @@ export default class App extends Component {
     window.particleBg('#bg', {
       color: '#eee'
     })
+    this.fetchUserInfo()
+  }
+
+  fetchUserInfo = () => {
+    this.props.store.getUser()
   }
 
   renderFooter () {
@@ -21,69 +26,54 @@ export default class App extends Component {
     )
   }
 
-  renderSkills (skills) {
+  renderSkills (skills = this.props.store.botInfo.skills) {
     if (!skills.length) {
       return null
     }
     return (
-      <List
-        dataSource={skills}
-        bordered
-        header={<div>Loaded Skills</div>}
-        renderItem={item => (
-          <List.Item>
-            <List.Item.Meta
-              title={
-                <span>
-                  {
-                    item.homepage
-                      ? <a href={item.homepage} title='Skill homepage' target='_blank'><Icon type='home' /></a>
-                      : null
-                  }
-                  <b className='mg1l'>{item.name}</b>
-                </span>
+      <div className='pd2y'>
+        <List
+          dataSource={skills}
+          bordered
+          header={<div>Loaded Skills</div>}
+          renderItem={item => (
+            <List.Item>
+              <List.Item.Meta
+                title={
+                  <span>
+                    {
+                      item.homepage
+                        ? <a href={item.homepage} title='Skill homepage' target='_blank'><Icon type='home' /></a>
+                        : null
+                    }
+                    <b className='mg1l'>{item.name}</b>
+                  </span>
 
-              }
-              description={
-                <div>
-                  {item.description}
-                  {
-                    item.settingPath
-                      ? (
-                        <a target='_blank' className='mg1l' href={server + item.settingPath}>
-                          <Button type='ghost' icon='setting'>Skill setting</Button>
-                        </a>
-                      )
-                      : null
-                  }
-                </div>
-              }
-            />
-          </List.Item>
-        )}
-      />
-    )
-  }
-
-  renderBotInfo () {
-    let { botInfo } = this.props.store
-    if (!botInfo) {
-      return null
-    }
-    return (
-      <div className='bot-info mg2b mg3t'>
-        <h2>
-          {botInfo.name}
-        </h2>
-        <p className='pd1b'>{botInfo.description}</p>
-        {
-          this.renderSkills(botInfo.skills)
-        }
+                }
+                description={
+                  <div>
+                    {item.description}
+                    {
+                      item.settingPath
+                        ? (
+                          <a target='_blank' className='mg1l' href={server + item.settingPath}>
+                            <Button type='ghost' icon='setting'>Skill setting</Button>
+                          </a>
+                        )
+                        : null
+                    }
+                  </div>
+                }
+              />
+            </List.Item>
+          )}
+        />
       </div>
     )
   }
 
   renderTitle () {
+    let { botInfo } = this.props.store
     return (
       <div>
         <div className='pd2b'>
@@ -93,16 +83,26 @@ export default class App extends Component {
           />
         </div>
         <h1>
-          RingCentral personal bot system
+          {botInfo.name}
           <sup className='mg1l'><Tag color='red'>Beta</Tag></sup>
         </h1>
+        <p className='pd1b'>{botInfo.description}</p>
+        <p>
+          Built-in commands:
+          <b className='mg1l'>__help__</b>
+        </p>
+        <p className='pd1b'>
+          You can talk to self by post message starts with
+          <b className='mg1l'>#me </b>
+        </p>
       </div>
     )
   }
 
-  renderSwitch() {
+  renderSwitch () {
     let { enabled } = this.props.store.user
     let { swithing, updateEnable } = this.props.store
+    let turnOnUrl = window.rc.authUrlDefault.replace(window.rc.defaultState, 'user')
     if (enabled) {
       return (
         <Button
@@ -114,7 +114,7 @@ export default class App extends Component {
       )
     } else {
       return (
-        <a href={window.rc.authUrl}>
+        <a href={turnOnUrl}>
           <Button
             type='primary'
             icon='check'
@@ -152,7 +152,7 @@ export default class App extends Component {
             />
             <span className='mg1l'>When enabled, every message send by bot has a "[send by bot]" signature.</span>
           </div>
-          {this.renderBotInfo()}
+          {this.renderSkills()}
           {this.renderFooter()}
         </div>
       </div>
@@ -160,18 +160,21 @@ export default class App extends Component {
   }
 
   renderNotLogined () {
+    let { fetchingUser } = this.props.store
     return (
       <div className='aligncenter wrap'>
         {this.renderTitle()}
-        <p className='pd1b pd1t'>
-          <a href={window.rc.authUrl}>
-            <Button icon='login' type='primary' size='large'>
-              Login
-            </Button>
-          </a>
-        </p>
+        <Spin spinning={fetchingUser}>
+          <div className='pd1b pd1t'>
+            <a href={window.rc.authUrlDefault}>
+              <Button icon='login' type='primary' size='large'>
+                Login
+              </Button>
+            </a>
+          </div>
+        </Spin>
         <p className='pd1b'>After login, bot system will hook into your account, reply some message for you 😏.</p>
-        {this.renderBotInfo()}
+        {this.renderSkills()}
         {this.renderFooter()}
       </div>
     )

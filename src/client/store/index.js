@@ -2,11 +2,12 @@ import SubX from 'subx'
 import fetch from './fetch'
 
 const store = SubX.create({
-  logined: !!window.rc.user,
-  user: window.rc.user || {},
+  logined: false,
+  user: {},
   botInfo: window.rc.botInfo,
   loading: false,
   swithing: false,
+  fetchingUser: false,
   async updateSigned (signed) {
     store.loading = true
     let res = await fetch.post(window.rc.server + '/api/action', {
@@ -31,6 +32,21 @@ const store = SubX.create({
     store.swithing = false
     if (res) {
       store.user.enabled = enabled
+    }
+  },
+  async getUser () {
+    store.fetchingUser = true
+    let res = await fetch.post(window.rc.server + '/api/action', {
+      action: 'get-user'
+    }, {
+      handleErr: () => {
+        console.log('fetch user error')
+      }
+    })
+    store.fetchingUser = false
+    if (res) {
+      store.user = res.result
+      store.logined = !!res.result.id
     }
   }
 })

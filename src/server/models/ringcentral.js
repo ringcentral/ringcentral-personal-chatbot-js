@@ -85,7 +85,7 @@ Object.defineProperty(User.prototype, 'rc', {
 //   }
 // }
 
-User.prototype.authorizeUri = function (state) {
+User.prototype.authorizeUri = function (state = 'hoder') {
   return this.rc.authorizeUri(process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/oauth', {
     state,
     responseType: 'code'

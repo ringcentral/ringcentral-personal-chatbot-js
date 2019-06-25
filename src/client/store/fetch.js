@@ -2,9 +2,13 @@
 import _ from 'lodash'
 import { notification } from 'antd'
 const log = console
+const token = window.localStorage.getItem(
+  window.rc.jwtPrefix + ':rcpf-jwt-token'
+) || ''
 const jsonHeader = {
   'Accept': 'application/json',
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
+  Authorization: 'Bearer ' + token
 }
 
 function parseResponse (response) {

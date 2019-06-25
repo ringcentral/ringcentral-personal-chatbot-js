@@ -4,14 +4,16 @@
  */
 
 import { User } from '../models/ringcentral'
+import _ from 'lodash'
 
 const supportedActions = [
   'bot-signature-switch',
-  'bot-switch'
+  'bot-switch',
+  'get-user'
 ]
 
 export default async (req, res) => {
-  let { user } = req.session
+  let { user } = req
   if (!user) {
     res.status(401)
     return res.send('please login first')
@@ -27,7 +29,12 @@ export default async (req, res) => {
   }
   let { id } = user
   let result
-  if (action === 'bot-signature-switch') {
+  if (action === 'get-user') {
+    result = await User.findByPk(id)
+    result = _.pick(result || {}, [
+      'id', 'enabled', 'signed', 'privateChatOnly', 'data'
+    ])
+  } else if (action === 'bot-signature-switch') {
     result = await User.update({
       signed: update.signed
     }, {
@@ -35,7 +42,6 @@ export default async (req, res) => {
         id
       }
     })
-    req.session.user.signed = !!update.signed
   } else if (action === 'bot-switch') {
     let enabled = !!update.enabled
     let user = await User.findByPk(id)
@@ -43,7 +49,7 @@ export default async (req, res) => {
       res.status(401)
       return res.send('user not find')
     }
-    if (req.session.user.enabled && !enabled) {
+    if (req.user.enabled && !enabled) {
       await user.ensureWebHook(true)
     }
     result = await User.update({
@@ -53,10 +59,9 @@ export default async (req, res) => {
         id
       }
     })
-    req.session.user.enabled = enabled
   }
   res.send({
     status: 0,
-    result
+    result: result
   })
 }

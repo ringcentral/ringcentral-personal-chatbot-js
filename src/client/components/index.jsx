@@ -2,10 +2,10 @@ import { Component } from 'react-subx'
 import { Button, List, Switch, Tag, Icon, Spin } from 'antd'
 import logo from '../images/rc128.png'
 
-const { server, cdn } = window.rc
+const { server } = window.rc
 export default class App extends Component {
   componentDidMount () {
-    window.particleBg('#bg', {
+    window.particleBg && window.particleBg('#bg', {
       color: '#eee'
     })
     this.fetchUserInfo()
@@ -79,7 +79,7 @@ export default class App extends Component {
         <div className='pd2b'>
           <img
             className='iblock'
-            src={cdn + logo}
+            src={logo}
           />
         </div>
         <h1>

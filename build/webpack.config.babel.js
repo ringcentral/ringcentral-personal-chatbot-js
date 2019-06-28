@@ -80,7 +80,7 @@ const config = {
       },
       {
         test: /\.(png|jpg|svg|mp3)$/,
-        use: ['url-loader?limit=1&name=images/[name].[ext]']
+        use: ['url-loader?limit=100000&name=images/[name].[ext]']
       },
       {
         test: /\.jsx?$/,

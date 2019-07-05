@@ -139,8 +139,13 @@ User.prototype.setupWebHook = async function () {
 }
 
 User.prototype.getSubscriptions = async function () {
-  const r = await this.rc.get('/restapi/v1.0/subscription')
-  return r.data.records
+  try {
+    const r = await this.rc.get('/restapi/v1.0/subscription')
+    return r.data.records
+  } catch (e) {
+    console.log(e)
+    return []
+  }
 }
 
 User.prototype.refresh = async function () {

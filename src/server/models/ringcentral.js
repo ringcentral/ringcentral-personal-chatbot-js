@@ -97,12 +97,17 @@ User.prototype.removeWebHook = function () {
 }
 
 User.prototype.ensureWebHook = async function (removeOnly = false) {
-  const r = await this.rc.get('/restapi/v1.0/subscription')
-  for (const sub of r.data.records) {
-    if (sub.deliveryMode.address === process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/webhook') {
-      await this.rc.delete(`/restapi/v1.0/subscription/${sub.id}`)
+  try {
+    const r = await this.rc.get('/restapi/v1.0/subscription')
+    for (const sub of r.data.records) {
+      if (sub.deliveryMode.address === process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/webhook') {
+        await this.rc.delete(`/restapi/v1.0/subscription/${sub.id}`)
+      }
     }
+  } catch (e) {
+    console.log(e, 'ensureWebHook error')
   }
+
   if (!removeOnly) {
     await this.setupWebHook()
   }

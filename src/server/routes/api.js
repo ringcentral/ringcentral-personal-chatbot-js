@@ -49,7 +49,7 @@ export default async (req, res) => {
       res.status(401)
       return res.send('user not find')
     }
-    if (req.user.enabled && !enabled) {
+    if (user.enabled && !enabled) {
       await user.ensureWebHook(true)
     }
     result = await User.update({

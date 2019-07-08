@@ -6,7 +6,7 @@ import RingCentral from 'ringcentral-js-concise'
 import delay from 'timeout-as-promise'
 import { Service } from './Service'
 
-export const subscribeInterval = () => '/restapi/v1.0/subscription/~?threshold=59&interval=15'
+export const subscribeInterval = () => '/restapi/v1.0/subscription/~?threshold=120&interval=35'
 
 export class User extends Service {}
 

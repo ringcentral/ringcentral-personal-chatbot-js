@@ -134,7 +134,7 @@ User.prototype.setupWebHook = async function () {
       done = true
     } catch (e) {
       const errorCode = e.data.errorCode
-      if (errorCode === 'SUB-406') {
+      if (errorCode === 'SUB-406' || errorCode === 'SUB-521') {
         await delay(10000)
         continue
       }

@@ -5,7 +5,7 @@
 
 exports.name = 'server time bot skill'
 exports.description = 'server time bot skill, reply with server time string when got command "server time"'
-exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-skills/skill-time.js'
+exports.homepage = 'https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/example-skills/skill-time.js'
 
 exports.onPostAdd = async ({
   text, // original text

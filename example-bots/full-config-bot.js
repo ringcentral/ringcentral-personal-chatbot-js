@@ -8,7 +8,7 @@
 exports.name = 'Bot name'
 
 exports.description = 'Bot description'
-exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-bots/hello-bot-with-skills.js'
+exports.homepage = 'https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/example-bots/hello-bot-with-skills.js'
 
 // handle post added event
 exports.onPostAdd = async ({

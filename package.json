@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-personal-chatbot",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "description": "RingCentral personal chatbot framework",
   "main": "dist/server/index.js",
   "bin": {
@@ -90,10 +90,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js.git"
+    "url": "git+https://github.com/ringcentral/ringcentral-personal-chatbot-js.git"
   },
   "bugs": {
-    "url": "https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/issues"
+    "url": "https://github.com/ringcentral/ringcentral-personal-chatbot-js/issues"
   },
-  "homepage": "https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js#readme"
+  "homepage": "https://github.com/ringcentral/ringcentral-personal-chatbot-js#readme"
 }

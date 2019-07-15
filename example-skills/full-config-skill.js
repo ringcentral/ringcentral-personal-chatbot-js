@@ -12,7 +12,7 @@ exports.description = 'Bot skill description'
 // only if you have setting page
 exports.settingPath = '/skill/your-skill-setting-path'
 
-exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-skills/full-config-skill.js'
+exports.homepage = 'https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/example-skills/full-config-skill.js'
 
 // handle post added event
 exports.onPostAdd = async ({

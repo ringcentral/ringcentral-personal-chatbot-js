@@ -21,7 +21,7 @@ export const appExtend = (app) => {
 
 exports.name = 'fake skill'
 exports.description = 'this skill has a setting page and do nothing'
-exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-skills/fake-skill-with-setting-page.js'
+exports.homepage = 'https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/example-skills/fake-skill-with-setting-page.js'
 
 // only if you have setting page
 exports.settingPath = '/skill/fake-setting'

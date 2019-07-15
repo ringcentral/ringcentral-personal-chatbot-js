@@ -6,7 +6,7 @@
 exports.name = 'Hello bot'
 
 exports.description = 'Bot only respond to "Hello"'
-exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-bots/hello.js'
+exports.homepage = 'https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/example-bots/hello.js'
 
 exports.onPostAdd = async ({
   text, // original text

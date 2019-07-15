@@ -5,7 +5,7 @@
 
 exports.name = 'Simple math skill'
 exports.description = 'simple bot skill that can solve simple math problem, like `123 + 234` then give the result as response'
-exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-skills/skill-simple-math.js'
+exports.homepage = 'https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/example-skills/skill-simple-math.js'
 
 exports.onPostAdd = async ({
   text, // original text

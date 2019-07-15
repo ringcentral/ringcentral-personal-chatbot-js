@@ -6,7 +6,7 @@
 exports.name = 'echo bot'
 
 exports.description = 'Bot will echo every message'
-exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-bots/echo.js'
+exports.homepage = 'https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/example-bots/echo.js'
 
 exports.onPostAdd = async ({
   text, // original text

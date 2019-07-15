@@ -14,7 +14,7 @@ export const onPostAdd = async ({
   text, // original text
   textFiltered, // text without metion user
   group,
-  user, // user instance, check https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/src/server/models/ringcentral.js
+  user, // user instance, check https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/src/server/models/ringcentral.js
   handled // if hanlded equals true, it means event already hanlded by prev skills
 }) => {
   if (textFiltered === 'ping') {
@@ -32,7 +32,7 @@ exports.description = 'ping pong bot skill, reply with pong when got command "pi
 
 ```
 
-For full config, check [https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-skills/full-config-skill.js](https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-skills/full-config-skill.js)
+For full config, check [https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/example-skills/full-config-skill.js](https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/example-skills/full-config-skill.js)
 
 ## Use a bot skill
 

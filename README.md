@@ -2,7 +2,7 @@
 
 RingCentral personal chatbot framework.
 
-![ ](https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-skill-faq/raw/master/screenshots/s1.png)
+![ ](https://github.com/ringcentral/ringcentral-personal-chatbot-skill-faq/raw/master/screenshots/s1.png)
 
 - [Quick start](#Quick-start)
 - [Build and run in production](#Build-and-run-in-production)
@@ -20,7 +20,7 @@ Let's start a simple chatbot server and login to it with you sandbox glip accoun
 
 ```bash
 # get the code
-git clone git@github.com:rc-personal-bot-framework/ringcentral-personal-chatbot-js.git
+git clone git@github.com:ringcentral/ringcentral-personal-chatbot-js.git
 cd ringcentral-personal-chatbot-js
 
 # install dependecies

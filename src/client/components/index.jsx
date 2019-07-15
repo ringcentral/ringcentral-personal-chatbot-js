@@ -19,7 +19,7 @@ export default class App extends Component {
     return (
       <div className='mg3t pd1y'>
         Powered by
-        <a href='https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js' target='_blank' className='mg1x'>ringcentral-personal-chatbot</a>
+        <a href='https://github.com/ringcentral/ringcentral-personal-chatbot-js' target='_blank' className='mg1x'>ringcentral-personal-chatbot</a>
         and
         <a href='https://github.com/tylerlong/subx' target='_blank' className='mg1x'>Subx</a>
       </div>

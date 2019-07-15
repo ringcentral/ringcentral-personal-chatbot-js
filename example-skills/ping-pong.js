@@ -5,7 +5,7 @@
 
 exports.name = 'ping pong bot skill'
 exports.description = 'ping pong bot skill, reply with pong when got command "ping"'
-exports.homepage = 'https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-js/blob/master/example-skills/ping-pong.js'
+exports.homepage = 'https://github.com/ringcentral/ringcentral-personal-chatbot-js/blob/master/example-skills/ping-pong.js'
 
 exports.onPostAdd = async ({
   text, // original text

@@ -3,13 +3,13 @@ require('dotenv').config()
 const { identity } = require('lodash')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const pack = require('../package.json')
+// const pack = require('../package.json')
 const { resolve } = require('path')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const { env } = process
 const devPort = env.devPort || 6066
 const host = env.host || 'localhost'
-let { version } = pack
+
 let isProd = env.NODE_ENV === 'production'
 const extractTextPlugin1 = new MiniCssExtractPlugin({
   filename: 'css/[name].styles.bundle.css'

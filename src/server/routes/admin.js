@@ -1,7 +1,6 @@
 
 import { User } from '../models/ringcentral'
 
-
 // create database tables if not exists
 export const initDb = async (req, res) => {
   await User.sync()

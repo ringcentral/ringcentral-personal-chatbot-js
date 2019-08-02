@@ -1,19 +1,20 @@
 import Sequelize from 'sequelize'
-
+import { generate } from 'shortid'
 import sequelize from './sequelize'
 
 export const Service = sequelize.define('user', {
-  id: { // Glip user ID
+  id: {
     type: Sequelize.STRING,
-    primaryKey: true
+    primaryKey: true,
+    defaultValue: generate
   },
-  name: { // glip user name
+  name: {
     type: Sequelize.STRING
   },
-  email: { // Glip user email
+  email: {
     type: Sequelize.STRING
   },
-  token: { // user token
+  token: {
     type: Sequelize.JSON
   },
   enabled: {

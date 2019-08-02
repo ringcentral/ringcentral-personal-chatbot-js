@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-personal-chatbot",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "RingCentral personal chatbot framework",
   "main": "dist/server/index.js",
   "bin": {
@@ -71,8 +71,7 @@
     "body-parser": "^1.19.0",
     "commander": "^2.20.0",
     "dotenv": "6.2.0",
-    "dynamo-sequelize": "^0.6.0",
-    "sequelize": "^6.0.0",
+    "dynamo-sequelize": "^0.6.1",
     "express": "^4.16.4",
     "express-basic-auth": "^1.2.0",
     "express-jwt": "^5.3.1",
@@ -82,6 +81,8 @@
     "pg": "^7.7.1",
     "pug": "^2.0.3",
     "ringcentral-js-concise": "^0.7.7",
+    "sequelize": "^6.0.0",
+    "shortid": "^2.2.14",
     "sqlite3": "^4.0.4",
     "timeout-as-promise": "^1.0.0"
   },

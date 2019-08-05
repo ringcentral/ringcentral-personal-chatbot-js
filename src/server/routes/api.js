@@ -30,7 +30,7 @@ export default async (req, res) => {
   let { id } = user
   let result
   if (action === 'get-user') {
-    result = await User.findByPk(id)
+    result = await User.findByPk(id).catch(console.error)
     result = _.pick(result || {}, [
       'id', 'enabled', 'signed', 'privateChatOnly', 'data'
     ])
@@ -41,10 +41,10 @@ export default async (req, res) => {
       where: {
         id
       }
-    })
+    }).catch(console.error)
   } else if (action === 'bot-switch') {
     let enabled = !!update.enabled
-    let user = await User.findByPk(id)
+    let user = await User.findByPk(id).catch(console.error)
     if (enabled || !user) {
       res.status(401)
       return res.send('user not find')
@@ -58,7 +58,7 @@ export default async (req, res) => {
       where: {
         id
       }
-    })
+    }).catch(console.error)
   }
   res.send({
     status: 0,

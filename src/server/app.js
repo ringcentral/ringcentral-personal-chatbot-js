@@ -58,5 +58,8 @@ export const initApp = (conf) => {
       skill.appExtend(app)
     }
   }
+  if (conf.appExtend) {
+    conf.appExtend(app)
+  }
   return app
 }

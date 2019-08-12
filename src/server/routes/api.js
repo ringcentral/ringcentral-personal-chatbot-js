@@ -34,6 +34,10 @@ export default async (req, res) => {
     result = _.pick(result || {}, [
       'id', 'enabled', 'signed', 'privateChatOnly', 'data'
     ])
+    if (_.isEmpty(result)) {
+      res.status(401)
+      return res.send('user not exist')
+    }
   } else if (action === 'bot-signature-switch') {
     result = await User.update({
       signed: update.signed

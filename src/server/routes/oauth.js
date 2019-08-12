@@ -15,8 +15,11 @@ export default async (req, res) => {
   var token = jwt.sign({
     id
   }, SERVER_SECRET, { expiresIn: '60d' })
+  let red = state.startsWith('redirect=')
+    ? decodeURIComponent(state.replace(/^redirect=/, ''))
+    : extraPath + SERVER_HOME
   let data = {
-    redirect: extraPath + SERVER_HOME,
+    redirect: red,
     title: pack.name,
     jwtPrefix,
     token

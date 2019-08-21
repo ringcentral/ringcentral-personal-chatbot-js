@@ -89,11 +89,15 @@ export default class App extends Component {
         <p className='pd1b'>{botInfo.description}</p>
         <p>
           Built-in commands:
-          <b className='mg1l'>__help__</b>
+          <b className='mg1l'>__help__(show bot info)</b>
         </p>
         <p className='pd1b'>
           You can talk to self by post message starts with
           <b className='mg1l'>#me </b>
+        </p>
+        <p className='pd1b'>
+          You can pause the bot for <b>10</b> minutes by sending message
+          <b className='mg1l'>pause 10m</b> or <b className='mg1l'>pause</b>(5 minutes)
         </p>
       </div>
     )

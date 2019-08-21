@@ -47,7 +47,6 @@ export default (conf) => {
         console.log(new Date().toString(), 'receive renew event, user id', userId)
         await user.refresh()
         await user.ensureWebHook()
-        console.log(new Date().toString(), 'receive renew event done, user id', userId)
       }
     }
     let eventType = _.get(message, 'body.eventType')

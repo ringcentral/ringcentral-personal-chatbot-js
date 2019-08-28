@@ -42,12 +42,15 @@ export default async (message, conf) => {
     return
   }
   const now = Date.now()
-  const pauseUntil = user && user.data && user.data.pauseUntil ? user.data.pauseUntil : 0
-  if (pauseUntil && pauseUntil > now) {
-    return
-  }
+  const pausegUntil = user && user.data && user.data[`pauseUntil_${groupId}`] ? user.data[`pauseUntil_${groupId}`] : 0
   const regex = new RegExp(`!\\[:Person\\]\\(${user.id}\\)`)
   const textFiltered = text.replace(regex, ' ').replace(/^#me /, '').trim()
+  if (
+    pausegUntil && pausegUntil > now &&
+    textFiltered !== 'resume'
+  ) {
+    return
+  }
   const pauseReg = /^pause( +[0-9]+m)?$/
   const max = 60
   const defaultMin = 5
@@ -56,11 +59,24 @@ export default async (message, conf) => {
       text: buildBotInfo(conf)
     })
   } else if (textFiltered === 'resume') {
-    await User.update({
-      data: {
-        ...user.data,
-        pauseUntil: 0
+    let dt = {
+      ...user.data
+    }
+    Object.keys(dt).forEach(k => {
+      if (k.startsWith('pauseUntil')) {
+        delete dt[k]
       }
+    })
+    dt.pauseUntil = 0
+    await User.update({
+      data: dt
+    }, {
+      where: {
+        id: user.id
+      }
+    })
+    await user.sendMessage(groupId, {
+      text: `Bot resume`
     })
   } else if (pauseReg.test(textFiltered)) {
     let t = textFiltered.match(pauseReg)[1]
@@ -75,11 +91,12 @@ export default async (message, conf) => {
       t = defaultMin
     }
     let pauseUntil = t * 60 * 1000 + new Date().getTime()
+    let up = {
+      ...user.data
+    }
+    up[`pauseUntil_${groupId}`] = pauseUntil
     await User.update({
-      data: {
-        ...user.data,
-        pauseUntil
-      }
+      data: up
     }, {
       where: {
         id: user.id

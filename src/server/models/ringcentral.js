@@ -193,7 +193,9 @@ User.prototype.getGroup = async function (groupId) {
 
 User.prototype.sendMessage = async function (groupId, messageObj) {
   const r = await this.rc.post(`/restapi/v1.0/glip/groups/${groupId}/posts`, messageObj)
-  let mark = await this.markAsUnread(groupId)
+  let mark = await this.markAsUnread(groupId).catch(e => {
+    console.log(e.stack)
+  })
   return {
     sendResult: r.data,
     markAsUnreadResult: mark

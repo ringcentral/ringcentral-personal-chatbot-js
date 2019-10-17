@@ -2,17 +2,17 @@
 
 RingCentral personal chatbot framework.
 
-![ ](https://github.com/ringcentral/ringcentral-personal-chatbot-skill-faq/raw/master/screenshots/s1.png)
+![ ](https://github.com/rc-personal-bot-framework/ringcentral-personal-chatbot-skill-faq/raw/master/screenshots/s1.png)
 
-- [Quick start](#Quick-start)
-- [Build and run in production](#Build-and-run-in-production)
-- [Use as CLI tool](#Use-as-CLI-tool)
-- [Write a personal bot](#Write-a-personal-bot)
-- [Write/use a personal bot skill](#Writeuse-a-personal-bot-skill)
-- [Build-in commands](#Build-in-commands)
-- [Origin](#Origin)
-- [Credits](#Credits)
-- [License](#License)
+- [Quick start](#quick-start)
+- [Build and run in production](#build-and-run-in-production)
+- [Use as CLI tool](#use-as-cli-tool)
+- [Write a personal bot](#write-a-personal-bot)
+- [Write/use a personal bot skill](#writeuse-a-personal-bot-skill)
+- [Build-in commands](#build-in-commands)
+- [Origin](#origin)
+- [Credits](#credits)
+- [License](#license)
 
 ## Quick start
 

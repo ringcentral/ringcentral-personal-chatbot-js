@@ -3,7 +3,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import viewIndex from './routes/view-index'
 import initWebhook from './routes/webhook'
-import { initDb, viewDb } from './routes/admin'
+import { initDb, viewDb, renewToken } from './routes/admin'
 import oauth from './routes/oauth'
 import logout from './routes/logout'
 import api from './routes/api'
@@ -11,6 +11,7 @@ import morgan from 'morgan'
 import { resolve } from 'path'
 import basicAuth from 'express-basic-auth'
 import jwt from 'express-jwt'
+import './cron'
 
 export const jwtAuth = jwt({
   secret: process.env.SERVER_SECRET
@@ -49,6 +50,7 @@ app.use(function (err, req, res, next) {
 app.post('/api/action', jwtAuth, api)
 app.put('/admin/setup-database', auth, initDb)
 app.get('/admin/view-database', auth, viewDb)
+app.put('/admin/renew-token', auth, renewToken)
 
 export const initApp = (conf) => {
   app.get(SERVER_HOME, viewIndex(conf))

@@ -15,7 +15,7 @@ function buildBotInfo (conf) {
   cn = conf.homepage
     ? `[${cn}](${conf.homepage})`
     : cn
-  return `This account is augmented: **${cn}** : ${conf.description}
+  return `Hi, this is my AI assistant: **${cn}**, here to help with common questions and requests.
 ${skillsInfo ? '**Skills:**\n' + skillsInfo : ''}`
 }
 

@@ -156,7 +156,7 @@ export default class App extends Component {
               checkedChildren={txt}
               unCheckedChildren={txt}
             />
-            <span className='mg1l'>When enabled, every message send by bot has a "[send by bot]" signature.</span>
+            <span className='mg1l'>When enabled, every message sent by bot has a "[sent by bot]" signature.</span>
           </div>
           {this.renderSkills()}
           {this.renderFooter()}

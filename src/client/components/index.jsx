@@ -132,12 +132,13 @@ export default class App extends Component {
   }
 
   renderLogined () {
-    let { loading, user = {}, updateSigned } = this.props.store
+    let { loading, user = {}, updateSigned, updateReplyWithoutMentionInTeam } = this.props.store
     let txt = 'Enabled bot message signature'
     let { enabled } = user
     let txt1 = enabled
       ? 'Bot is working now, you can close this page, bot will still work. You can stop the bot by come back and '
       : 'Bot is offline now, you can '
+    let txt2 = 'Reply without mention in team'
     return (
       <div className='outer'>
         <div className='header alignright mg3b pd2x pd1y'>
@@ -157,6 +158,16 @@ export default class App extends Component {
               unCheckedChildren={txt}
             />
             <span className='mg1l'>When enabled, every message sent by bot has a "[sent by bot]" signature.</span>
+          </div>
+          <div className='pd1b'>
+            <Switch
+              loading={loading}
+              checked={!!user.data.replyWithoutMentionInTeam}
+              onChange={updateReplyWithoutMentionInTeam}
+              checkedChildren={txt2}
+              unCheckedChildren={txt2}
+            />
+            <span className='mg1l'>When enabled, bot will trigger without mention in team chat.</span>
           </div>
           {this.renderSkills()}
           {this.renderFooter()}

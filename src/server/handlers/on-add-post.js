@@ -2,6 +2,7 @@
  * default parser for add post event
  */
 import { User } from '../models/ringcentral'
+import _ from 'lodash'
 
 function buildBotInfo (conf) {
   let skillsInfo = conf.skills.reduce((prev, s) => {
@@ -34,10 +35,13 @@ export default async (message, conf) => {
   const user = await User.findByPk(ownerId)
   const group = await user.getGroup(groupId)
   const isPrivateChat = group.members.length <= 2
-  if (!isPrivateChat && !isTalkToSelf && (
-    !message.body.mentions ||
-    !message.body.mentions.some(m => m.type === 'Person' && m.id === ownerId)
-  )) {
+  const isNotMentioned = !message.body.mentions ||
+  !message.body.mentions.some(m => m.type === 'Person' && m.id === ownerId)
+  const replyWithoutMentionInTeam = _.get(user, 'data.replyWithoutMentionInTeam')
+  if (
+    !isPrivateChat &&
+    !isTalkToSelf && !replyWithoutMentionInTeam && isNotMentioned
+  ) {
     // only respond to mentioned chat in group chat or private chat
     return
   }

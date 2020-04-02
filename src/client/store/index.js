@@ -48,6 +48,17 @@ const store = SubX.create({
       store.user = res.result
       store.logined = !!res.result.id
     }
+  },
+  async updateReplyWithoutMentionInTeam (update) {
+    store.loading = true
+    let res = await fetch.post(window.rc.server + '/api/action', {
+      action: 'switch-reply-without-mention-in-team',
+      update
+    })
+    store.loading = false
+    if (res) {
+      store.user.data.replyWithoutMentionInTeam = update
+    }
   }
 })
 

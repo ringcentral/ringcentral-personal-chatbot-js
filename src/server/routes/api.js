@@ -9,7 +9,8 @@ import _ from 'lodash'
 const supportedActions = [
   'bot-signature-switch',
   'bot-switch',
-  'get-user'
+  'get-user',
+  'switch-reply-without-mention-in-team'
 ]
 
 export default async (req, res) => {
@@ -63,9 +64,26 @@ export default async (req, res) => {
         id
       }
     }).catch(console.error)
+  } else if (action === 'switch-reply-without-mention-in-team') {
+    let enabled = !!update
+    let user = await User.findByPk(id).catch(console.error)
+    if (!user) {
+      res.status(401)
+      return res.send('user not find')
+    }
+    result = await User.update({
+      data: {
+        ...user.data,
+        replyWithoutMentionInTeam: enabled
+      }
+    }, {
+      where: {
+        id
+      }
+    }).catch(console.error)
   }
   res.send({
     status: 0,
-    result: result
+    result
   })
 }

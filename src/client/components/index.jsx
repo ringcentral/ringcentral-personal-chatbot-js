@@ -1,6 +1,7 @@
 import { Component } from 'react-subx'
 import { Button, List, Switch, Tag, Icon, Spin } from 'antd'
 import logo from '../images/rc128.png'
+import _ from 'lodash'
 
 const { server } = window.rc
 export default class App extends Component {
@@ -162,7 +163,7 @@ export default class App extends Component {
           <div className='pd1b'>
             <Switch
               loading={loading}
-              checked={!!user.data.replyWithoutMentionInTeam}
+              checked={!!_.get(user, 'data.replyWithoutMentionInTeam')}
               onChange={updateReplyWithoutMentionInTeam}
               checkedChildren={txt2}
               unCheckedChildren={txt2}

@@ -21,12 +21,11 @@ User.init = async ({ code, state }) => {
     redirectUri: process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/oauth'
   })
   const token = rc.token()
+  const id = token.owner_id
   let where = {
-    id: token.owner_id
+    id
   }
-  let user = await User.findOne({
-    where
-  })
+  let user = await User.findByPk(id)
   let existInDB = !!user
   if (user) {
     let update = {
@@ -42,7 +41,7 @@ User.init = async ({ code, state }) => {
     return { user, existInDB }
   }
   user = await User.create({
-    id: token.owner_id,
+    id,
     token
   })
   return { user, existInDB }
@@ -94,63 +93,6 @@ User.prototype.authorizeUri = function (state = 'hoder') {
 
 User.prototype.removeWebHook = function () {
   return this.ensureWebHook(true)
-}
-
-User.prototype.ensureWebHook = async function (removeOnly = false) {
-  try {
-    const r = await this.rc.get('/restapi/v1.0/subscription')
-    for (const sub of r.data.records) {
-      if (sub.deliveryMode.address === process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/webhook') {
-        await this.rc.delete(`/restapi/v1.0/subscription/${sub.id}`)
-      }
-    }
-  } catch (e) {
-    console.log(e, 'ensureWebHook error')
-  }
-
-  if (!removeOnly) {
-    await this.setupWebHook()
-  }
-}
-
-User.prototype.setupWebHook = async function () {
-  let done = false
-  while (!done) {
-    try {
-      await this.rc.post('/restapi/v1.0/subscription', {
-        eventFilters: [
-          '/restapi/v1.0/glip/posts',
-          '/restapi/v1.0/glip/groups',
-          '/restapi/v1.0/account/~/extension/~',
-          '/restapi/v1.0/account/~/extension/~/message-store',
-          subscribeInterval()
-        ],
-        expiresIn: 1799,
-        deliveryMode: {
-          transportType: 'WebHook',
-          address: process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/webhook'
-        }
-      })
-      done = true
-    } catch (e) {
-      const errorCode = e.data.errorCode
-      if (errorCode === 'SUB-406' || errorCode === 'SUB-521') {
-        await delay(10000)
-        continue
-      }
-      throw e
-    }
-  }
-}
-
-User.prototype.getSubscriptions = async function () {
-  try {
-    const r = await this.rc.get('/restapi/v1.0/subscription')
-    return r.data.records
-  } catch (e) {
-    console.log(e)
-    return []
-  }
 }
 
 User.prototype.refresh = async function () {

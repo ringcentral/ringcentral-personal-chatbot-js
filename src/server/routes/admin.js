@@ -1,6 +1,6 @@
 
 import { User } from '../models/ringcentral'
-
+import renew from '../handlers/renew-task'
 // create database tables if not exists
 export const initDb = async (req, res) => {
   await User.sync()
@@ -19,14 +19,4 @@ export const viewDb = async (req, res) => {
   res.send(result)
 }
 
-export const renewToken = async (req, res) => {
-  const users = await User.findAll()
-  let result = ''
-  console.log('running renew task')
-  for (const user of users) {
-    if (user.enabled) {
-      await user.refresh()
-    }
-  }
-  res.send(result)
-}
+export const renewToken = renew

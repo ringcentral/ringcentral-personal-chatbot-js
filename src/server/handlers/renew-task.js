@@ -74,7 +74,7 @@ export default async function renew (req, res) {
 
 // trigger by native lambda event
 export function triggerMaintain (event) {
-  console.log('event- for maintain---', event)
+  console.log('event for maintain:', event)
   return new Promise((resolve, reject) => {
     const {
       lastKey,

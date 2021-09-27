@@ -3,7 +3,6 @@
  */
 
 import RingCentral from 'ringcentral-js-concise'
-import delay from 'timeout-as-promise'
 import { Service } from './Service'
 
 export const subscribeInterval = () => '/restapi/v1.0/subscription/~?threshold=120&interval=35'
@@ -27,10 +26,13 @@ User.init = async ({ code, state }) => {
   }
   let user = await User.findByPk(id)
   let existInDB = !!user
+  const now = Date.now()
+  let update = {
+    token,
+    tokenUpdateTime: now,
+    lastUseTime: now
+  }
   if (user) {
-    let update = {
-      token
-    }
     if (state === 'user') {
       update.enabled = true
     }
@@ -39,11 +41,12 @@ User.init = async ({ code, state }) => {
     })
     Object.assign(user, update)
     return { user, existInDB }
+  } else {
+    user = await User.create({
+      id,
+      ...update
+    })
   }
-  user = await User.create({
-    id,
-    token
-  })
   return { user, existInDB }
 }
 
@@ -60,29 +63,6 @@ Object.defineProperty(User.prototype, 'rc', {
     return rc
   }
 })
-
-// User.prototype.validate = async function () {
-//   try {
-//     await this.rc.get('/restapi/v1.0/account/~/extension/~')
-//     return true
-//   } catch (e) {
-//     if (!e.data) {
-//       throw e
-//     }
-//     const { errorCode } = e.data
-//     if (errorCode === 'OAU-232' || errorCode === 'CMN-405') {
-//       await this.check()
-//       await User.destroy({
-//         where: {
-//           id: this.id
-//         }
-//       })
-//       console.log(`User ${this.id} had been deleted`)
-//       return false
-//     }
-//     throw e
-//   }
-// }
 
 User.prototype.authorizeUri = function (state = 'hoder') {
   return this.rc.authorizeUri(process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/oauth', {

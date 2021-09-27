@@ -1,3 +1,6 @@
+/**
+ * invoke lambda
+ */
 const AWS = require('aws-sdk')
 
 export function getName (to = 'trigger') {

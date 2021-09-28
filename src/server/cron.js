@@ -1,5 +1,5 @@
 /**
- * cron job to help maintain accesstoken in case webhook fails
+ * cron job to help maintain accesstoken
  */
 
 import axios from 'axios'

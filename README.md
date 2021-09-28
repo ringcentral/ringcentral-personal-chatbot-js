@@ -6,6 +6,7 @@ RingCentral personal chatbot framework.
 
 - [Quick start](#quick-start)
 - [Build and run in production](#build-and-run-in-production)
+- [Token renew](#token-renew)
 - [Use as CLI tool](#use-as-cli-tool)
 - [Write a personal bot](#write-a-personal-bot)
 - [Write/use a personal bot skill](#writeuse-a-personal-bot-skill)
@@ -15,6 +16,8 @@ RingCentral personal chatbot framework.
 - [License](#license)
 
 ## Quick start
+
+First, need create a AWS account, we will use free AWS dynamodb, and put your aws credentials in `~/.aws/credentials`, check [https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
 
 Let's start a simple chatbot server and login to it with you sandbox glip account, and you account will auto respond to `hello` with `Hi`(any private message or message mentioned you).
 
@@ -72,6 +75,10 @@ cross-env NODE_ENV=production node bin/rcpf.js example-bots/hello.js
 # proxy for production code
 npm run ngrok-p
 ```
+
+## Token renew
+
+todo
 
 ## Use as CLI tool
 

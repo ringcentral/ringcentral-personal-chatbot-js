@@ -77,7 +77,7 @@ export default class App extends Component {
     let { botInfo } = this.props.store
     return (
       <div>
-        <div className='pd2b aligncenter'>
+        <div className='pd2b'>
           <img
             className='iblock'
             src={logo}
@@ -100,6 +100,9 @@ export default class App extends Component {
           <li>
             You can pause the bot in current chatgroup for <b>10</b> minutes by sending message
             <b className='mg1l'>pause 10m</b> or <b className='mg1l'>pause</b>(5 minutes)
+          </li>
+          <li>
+            * If bot stop working, you can try fix it by <b>turn off</b> and <b>turn it on</b> again
           </li>
         </ul>
       </div>

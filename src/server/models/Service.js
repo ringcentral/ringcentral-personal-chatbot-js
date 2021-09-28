@@ -29,6 +29,12 @@ export const Service = sequelize.define('user', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   },
+  lastUseTime: {
+    type: Sequelize.INTEGER
+  },
+  tokenUpdateTime: {
+    type: Sequelize.INTEGER
+  },
   data: { // all other data associcated with this user
     type: Sequelize.JSON
   }

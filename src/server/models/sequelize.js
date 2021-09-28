@@ -4,7 +4,11 @@ const config = {
   define: {
     timestamps: true
   },
-  logging: false
+  logging: false,
+  throughput: {
+    read: process.env.DYNAMO_READ || 20,
+    write: process.env.DYNAMO_WRITE || 10
+  }
 }
 
 if (process.env.DIALECT === 'dynamodb') {
@@ -12,7 +16,7 @@ if (process.env.DIALECT === 'dynamodb') {
 }
 
 const sequelize = new Sequelize(
-  process.env.RINGCENTRAL_CHATBOT_DATABASE_CONNECTION_URI,
+  process.env.RINGCENTRAL_DATABASE_CONNECTION_URI,
   config
 )
 

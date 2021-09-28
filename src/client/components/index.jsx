@@ -78,10 +78,6 @@ export default class App extends Component {
     return (
       <div>
         <div className='pd2b'>
-          <img
-            className='iblock'
-            src={logo}
-          />
           <h1>
             {botInfo.name}
             <sup className='mg1l'><Tag color='red'>Beta</Tag></sup>

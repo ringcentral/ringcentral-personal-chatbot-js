@@ -13,3 +13,4 @@ db.sqlite
 .env.sample
 .env
 /docs
+/cmds/

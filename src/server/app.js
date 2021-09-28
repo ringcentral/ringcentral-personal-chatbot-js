@@ -10,12 +10,13 @@ import api from './routes/api'
 import morgan from 'morgan'
 import { resolve } from 'path'
 import basicAuth from 'express-basic-auth'
-import jwt from 'express-jwt'
-import './cron'
+import {
+  errHandler,
+  jwtCreate
+} from './common/jwt'
 
-export const jwtAuth = jwt({
-  secret: process.env.SERVER_SECRET
-})
+export const jwtAuth = jwtCreate('rcp')
+
 const {
   RINGCENTRAL_CHATBOT_ADMIN_USERNAME,
   RINGCENTRAL_CHATBOT_ADMIN_PASSWORD,
@@ -47,7 +48,7 @@ app.use(function (err, req, res, next) {
     next()
   }
 })
-app.post('/api/action', jwtAuth, api)
+app.post('/api/action', jwtAuth, errHandler, api)
 app.put('/admin/setup-database', auth, initDb)
 app.get('/admin/view-database', auth, viewDb)
 app.put('/admin/renew-token', auth, renewToken)

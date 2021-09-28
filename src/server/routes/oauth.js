@@ -1,9 +1,9 @@
 import { User } from '../models/ringcentral'
 import copy from 'json-deep-copy'
-import jwt from 'jsonwebtoken'
 import { pack, jwtPrefix, extraPath } from '../common/constants'
+import { sign } from '../common/jwt'
 
-const { SERVER_HOME = '/', SERVER_SECRET } = process.env
+const { SERVER_HOME = '/' } = process.env
 
 export default async (req, res) => {
   const { code, state } = req.query
@@ -12,9 +12,7 @@ export default async (req, res) => {
     await user.ensureWebHook()
   }
   let { id } = user
-  var token = jwt.sign({
-    id
-  }, SERVER_SECRET, { expiresIn: '60d' })
+  const token = sign(id)
   let red = state.startsWith('redirect=')
     ? decodeURIComponent(state.replace(/^redirect=/, ''))
     : extraPath + SERVER_HOME

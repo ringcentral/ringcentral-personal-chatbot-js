@@ -3,8 +3,8 @@
  * lambda file
  */
 
-import triggerFunc from './app/handlers/trigger'
-import { maintain as maintainFunc } from './app/common/maintain'
+import triggerFunc from '../handlers/trigger'
+import { maintain as maintainFunc } from './maintain'
 
 export const maintain = async () => {
   console.log('send renew request')

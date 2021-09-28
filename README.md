@@ -6,6 +6,7 @@ RingCentral personal chatbot framework.
 
 - [Quick start](#quick-start)
 - [Build and run in production](#build-and-run-in-production)
+- [Token renew](#token-renew)
 - [Use as CLI tool](#use-as-cli-tool)
 - [Write a personal bot](#write-a-personal-bot)
 - [Write/use a personal bot skill](#writeuse-a-personal-bot-skill)
@@ -74,6 +75,10 @@ cross-env NODE_ENV=production node bin/rcpf.js example-bots/hello.js
 # proxy for production code
 npm run ngrok-p
 ```
+
+## Token renew
+
+todo
 
 ## Use as CLI tool
 

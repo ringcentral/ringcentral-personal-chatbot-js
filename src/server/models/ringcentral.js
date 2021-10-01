@@ -5,6 +5,7 @@
 import RingCentral from 'ringcentral-js-concise'
 import { Service } from './Service'
 import delay from 'timeout-as-promise'
+import { refreshRcUser } from '../common/refresh-user'
 
 export const subscribeInterval = () => '/restapi/v1.0/subscription/~?threshold=120&interval=35'
 
@@ -99,6 +100,7 @@ User.prototype.refresh = async function () {
 }
 
 User.prototype.getGroup = async function (groupId) {
+  await refreshRcUser(this)
   try {
     const r = await this.rc.get(`/restapi/v1.0/glip/groups/${groupId}`)
     return r.data
@@ -111,6 +113,7 @@ User.prototype.getGroup = async function (groupId) {
 }
 
 User.prototype.sendMessage = async function (groupId, messageObj) {
+  await refreshRcUser(this)
   const r = await this.rc.post(`/restapi/v1.0/glip/groups/${groupId}/posts`, messageObj)
   let mark = await this.markAsUnread(groupId).catch(e => {
     console.log(e.stack)
@@ -122,6 +125,7 @@ User.prototype.sendMessage = async function (groupId, messageObj) {
 }
 
 User.prototype.markAsUnread = async function (groupId) {
+  await refreshRcUser(this)
   const r = await this.rc.post(`restapi/v1.0/glip/chats/${groupId}/unread`)
   return r.data
 }
@@ -131,6 +135,7 @@ User.prototype.removeWebHook = function () {
 }
 
 User.prototype.ensureWebHook = async function (removeOnly = false) {
+  await refreshRcUser(this)
   try {
     const r = await this.rc.get('/restapi/v1.0/subscription')
     for (const sub of r.data.records) {
@@ -148,6 +153,7 @@ User.prototype.ensureWebHook = async function (removeOnly = false) {
 }
 
 User.prototype.setupWebHook = async function () {
+  await refreshRcUser(this)
   let done = false
   while (!done) {
     try {
@@ -177,6 +183,7 @@ User.prototype.setupWebHook = async function () {
 }
 
 User.prototype.getSubscriptions = async function () {
+  await refreshRcUser(this)
   try {
     const r = await this.rc.get('/restapi/v1.0/subscription')
     return r.data.records

@@ -162,7 +162,8 @@ User.prototype.setupWebHook = async function () {
           '/restapi/v1.0/glip/posts',
           '/restapi/v1.0/glip/groups',
           '/restapi/v1.0/account/~/extension/~',
-          '/restapi/v1.0/account/~/extension/~/message-store'
+          '/restapi/v1.0/account/~/extension/~/message-store',
+          subscribeInterval()
         ],
         expiresIn: 3600,
         deliveryMode: {

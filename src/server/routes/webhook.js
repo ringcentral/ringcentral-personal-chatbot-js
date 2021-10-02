@@ -28,6 +28,7 @@ async function run (props, conf, funcName) {
 export default (conf) => {
   return async (req, res) => {
     let message = req.body
+    console.log('message', message)
     let isRenewEvent = _.get(message, 'event') === subscribeInterval()
     let userId = (_.get(message, 'body.extensionId') || _.get(message, 'ownerId') || '').toString()
     if (!userId) {

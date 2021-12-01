@@ -61,7 +61,7 @@ export default async function renew (req, res) {
         console.log(user.id, 'not used for 90 days')
       } else {
         console.log(i, 'user', user.id)
-        await refreshRcUser(user, force).catch(console.error)
+        await user.ensureWebHook()
         i++
       }
     }

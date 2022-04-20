@@ -51,7 +51,7 @@ app.use(function (err, req, res, next) {
 app.post('/api/action', jwtAuth, errHandler, api)
 app.put('/admin/setup-database', auth, initDb)
 app.get('/admin/view-database', auth, viewDb)
-app.put('/admin/renew-token', auth, renewToken)
+app.put('/admin/renew', auth, renewToken)
 
 export const initApp = (conf) => {
   app.get(SERVER_HOME, viewIndex(conf))

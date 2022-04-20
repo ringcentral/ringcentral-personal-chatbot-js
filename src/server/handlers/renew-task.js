@@ -22,7 +22,7 @@ export async function refreshRcUser (user) {
     console.log('refresh token for', user.id)
     await user.refresh()
   }
-  if (!user.on && user.turnOffDesc !== 'self') {
+  if (!user.enabled && user.turnOffDesc !== 'self') {
     await user.ensureWebHook()
   }
   return user
@@ -67,7 +67,7 @@ export default async (req, res) => {
   let i = 1
   for (const user of users) {
     console.log(i, 'user', user.id)
-    await user.tryRefresh().catch(console.error)
+    await refreshRcUser(user).catch(console.error)
     i++
   }
   if (users.lastKey) {

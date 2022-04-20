@@ -21,7 +21,7 @@ exports.onPostAdd = async ({
   isPrivateChat,
   shouldUseSignature // should use signature like "send by bot skill xxx" in message.
 }) => {
-  let sign = shouldUseSignature
+  const sign = shouldUseSignature
     ? ` [send by [${exports.name}](${exports.homepage})]`
     : ''
   await user.sendMessage(group.id, {

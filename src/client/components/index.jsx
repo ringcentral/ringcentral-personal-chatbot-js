@@ -1,10 +1,27 @@
-import { Component } from 'react-subx'
-import { Button, List, Switch, Tag, Icon, Spin } from 'antd'
-import logo from '../images/rc128.png'
+import { Component } from 'react'
+import { Button, List, Switch, Tag, Typography, Spin } from 'antd'
+import fetch from '../store/fetch'
+import {
+  LinkOutlined,
+  GithubFilled,
+  HighlightOutlined,
+  LogoutOutlined
+} from '@ant-design/icons'
 import _ from 'lodash'
 
+const { Text } = Typography
 const { server } = window.rc
+
 export default class App extends Component {
+  state = {
+    logined: false,
+    user: {},
+    botInfo: window.rc.botInfo,
+    loading: false,
+    switching: false,
+    fetchingUser: false
+  }
+
   componentDidMount () {
     window.particleBg && window.particleBg('#bg', {
       color: '#eee'
@@ -12,22 +29,152 @@ export default class App extends Component {
     this.fetchUserInfo()
   }
 
+  updateSigned = async (signed) => {
+    this.setState({
+      loading: true
+    })
+    const res = await fetch.post(window.rc.server + '/api/action', {
+      action: 'bot-signature-switch',
+      update: {
+        signed
+      }
+    })
+    const up = {
+      loading: false
+    }
+    this.setState(old => {
+      const r = up
+      if (res) {
+        r.user = {
+          ...old.user,
+          signed
+        }
+      }
+      return r
+    })
+  }
+
+  updateEnable = async (enabled) => {
+    this.setState({
+      switching: true
+    })
+    const res = await fetch.post(window.rc.server + '/api/action', {
+      action: 'bot-switch',
+      update: {
+        enabled
+      }
+    })
+    const up = {
+      switching: false
+    }
+    this.setState(old => {
+      const r = up
+      if (res) {
+        r.user = {
+          ...old.user,
+          enabled
+        }
+      }
+      return r
+    })
+  }
+
+  getUser = async () => {
+    this.setState({
+      fetchingUser: true
+    })
+    const res = await fetch.post(window.rc.server + '/api/action', {
+      action: 'get-user'
+    }, {
+      handleErr: () => {
+        console.log('fetch user error')
+      }
+    })
+    const up = {
+      fetchingUser: false
+    }
+    this.setState(old => {
+      const r = up
+      if (res) {
+        r.user = res.result
+        r.logined = !!res.result.id
+      }
+      return r
+    })
+  }
+
+  updateReplyWithoutMentionInTeam = async (update) => {
+    this.setState({
+      loading: true
+    })
+    const res = await fetch.post(window.rc.server + '/api/action', {
+      action: 'switch-reply-without-mention-in-team',
+      update
+    })
+    const up = {
+      loading: false
+    }
+    this.setState(old => {
+      const r = up
+      if (res) {
+        r.user = {
+          ...old.user,
+          data: {
+            ...old.user.data,
+            replyWithoutMentionInTeam: update
+          }
+        }
+      }
+      return r
+    })
+  }
+
   fetchUserInfo = () => {
-    this.props.store.getUser()
+    this.getUser()
   }
 
   renderFooter () {
     return (
       <div className='mg3t pd1y'>
-        Powered by
-        <a href='https://github.com/ringcentral/ringcentral-personal-chatbot-js' target='_blank' className='mg1x'>ringcentral-personal-chatbot</a>
-        and
-        <a href='https://github.com/tylerlong/subx' target='_blank' className='mg1x'>Subx</a>
+        <p>
+          <a
+            href='https://github.com/ringcentral/ringcentral-personal-chatbot-js/issues'
+            target='_blank'
+            rel='noreferrer'
+          >
+            <HighlightOutlined /> Feedback
+          </a>
+          <a
+            className='mg1l'
+            href='https://github.com/ringcentral/ringcentral-personal-chatbot-js'
+            target='_blank'
+            rel='noreferrer'
+          >
+            <GithubFilled /> GitHub repo
+          </a>
+          <a
+            className='mg1l'
+            href='https://www.ringcentral.com/apps'
+            target='_blank'
+            rel='noreferrer'
+          >
+            <LinkOutlined /> RingCentral App gallery
+          </a>
+        </p>
+        <div className='pd1y'>
+          <Text type='secondary'>
+            <div>
+              <img src='//raw.githubusercontent.com/ringcentral/ringcentral-embeddable/master/src/assets/rc/icon.svg' className='iblock mg1r' alt='' />
+              <span className='iblock bold pd1y'>RingCentral Labs</span>
+            </div>
+            <p>RingCentral Labs is a program that lets RingCentral engineers, platform product managers and other employees share RingCentral apps they've created with the customer community. RingCentral Labs apps are free to use, but are not official products, and should be considered community projects - these apps are not officially tested or documented. For help on any RingCentral Labs app please consult each project's GitHub Issues message boards - RingCentral support is not available for these applications.</p>
+          </Text>
+        </div>
       </div>
     )
   }
 
-  renderSkills (skills = this.props.store.botInfo.skills) {
+  renderSkills (skills = this.state.botInfo.skills) {
     if (!skills.length) {
       return null
     }
@@ -44,7 +191,7 @@ export default class App extends Component {
                   <span>
                     {
                       item.homepage
-                        ? <a href={item.homepage} title='Skill homepage' target='_blank'><Icon type='home' /></a>
+                        ? <a href={item.homepage} title='Skill homepage' target='_blank' rel='noreferrer'><LinkOutlined /></a>
                         : null
                     }
                     <b className='mg1l'>{item.name}</b>
@@ -57,10 +204,10 @@ export default class App extends Component {
                     {
                       item.settingPath
                         ? (
-                          <a target='_blank' className='mg1l' href={server + item.settingPath}>
-                            <Button type='ghost' icon='setting'>Skill setting</Button>
+                          <a target='_blank' className='mg1l' href={server + item.settingPath} rel='noreferrer'>
+                            <Button type='ghost'>Skill setting</Button>
                           </a>
-                        )
+                          )
                         : null
                     }
                   </div>
@@ -74,7 +221,7 @@ export default class App extends Component {
   }
 
   renderTitle () {
-    let { botInfo } = this.props.store
+    const { botInfo } = this.state
     return (
       <div>
         <div className='pd2b'>
@@ -106,44 +253,44 @@ export default class App extends Component {
   }
 
   renderSwitch () {
-    let { enabled } = this.props.store.user
-    let { swithing, updateEnable } = this.props.store
-    let turnOnUrl = window.rc.authUrlDefault.replace(window.rc.defaultState, 'user')
+    const { enabled } = this.state.user
+    const { switching, updateEnable } = this.state
+    const turnOnUrl = window.rc.authUrlDefault.replace(window.rc.defaultState, 'user')
     if (enabled) {
       return (
         <Button
           type='danger'
-          icon='disconnect'
-          loading={swithing}
+          loading={switching}
           onClick={() => updateEnable(false)}
-        >Turn off Bot</Button>
+        >Turn off Bot
+        </Button>
       )
     } else {
       return (
         <a href={turnOnUrl}>
           <Button
             type='primary'
-            icon='check'
-            loading={swithing}
-          >Turn on Bot</Button>
+            loading={switching}
+          >Turn on Bot
+          </Button>
         </a>
       )
     }
   }
 
   renderLogined () {
-    let { loading, user = {}, updateSigned, updateReplyWithoutMentionInTeam } = this.props.store
-    let txt = 'Enabled bot message signature'
-    let { enabled } = user
-    let txt1 = enabled
+    const { loading, user = {}, updateSigned, updateReplyWithoutMentionInTeam } = this.state
+    const txt = 'Enabled bot message signature'
+    const { enabled } = user
+    const txt1 = enabled
       ? 'Bot is working now, you can close this page, bot will still work. You can stop the bot by come back and '
       : 'Bot is offline now, you can '
-    let txt2 = 'Reply without mention in team'
+    const txt2 = 'Reply without mention in team'
     return (
       <div className='outer'>
         <div className='header alignright mg3b pd2x pd1y'>
           <a href={`${server}/logout`} className='iblock'>
-            <Icon type='logout' /> logout
+            <LogoutOutlined /> logout
           </a>
         </div>
         <div className='wrap'>
@@ -177,20 +324,20 @@ export default class App extends Component {
   }
 
   renderNotLogined () {
-    let { fetchingUser } = this.props.store
+    const { fetchingUser } = this.state
     return (
-      <div className='aligncenter wrap'>
+      <div className='wrap'>
         {this.renderTitle()}
         <Spin spinning={fetchingUser}>
           <div className='pd1b pd1t'>
             <a href={window.rc.authUrlDefault}>
-              <Button icon='login' type='primary' size='large'>
+              <Button type='primary' size='large'>
                 Login
               </Button>
             </a>
           </div>
         </Spin>
-        <p className='pd1b'>After login, bot system will hook into your account, reply some message for you 😏.</p>
+        <p className='pd1b'>After login, bot system will hook into your account, reply some message for you when any talk to you 😏.</p>
         {this.renderSkills()}
         {this.renderFooter()}
       </div>
@@ -198,7 +345,7 @@ export default class App extends Component {
   }
 
   render () {
-    let { logined } = this.props.store
+    const { logined } = this.state
     return logined
       ? this.renderLogined()
       : this.renderNotLogined()

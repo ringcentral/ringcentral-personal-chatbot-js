@@ -72,3 +72,4 @@ google.json
 /dist/
 *.sqlite
 *.sqlite-journal
+.dynamodb

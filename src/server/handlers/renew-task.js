@@ -3,45 +3,55 @@
  * should have a limit or may take too long
  */
 
-import { User as RingCentralUser } from '../models/ringcentral'
-import { refreshRcUser } from '../common/refresh-user'
-// import axios from 'axios'
-// import delay from 'timeout-as-promise'
-import { maintain } from '../common/maintain'
+import { User } from '../models/ringcentral'
+import axios from 'axios'
+import delay from 'timeout-as-promise'
 
-const deadline = 1000 * 60 * 60 * 24 * 300
+// const deadline = 1000 * 60 * 60 * 24 * 90
 const limit = parseInt(process.env.RENEW_LIMIT, 10)
 
-function notUsedForSomeTime (inst) {
+const expire = 3600 * 1000 - 60 * 1000
+
+export async function refreshRcUser (user) {
   const now = Date.now()
-  return now - (inst.lastUseTime || now) > deadline
+  const update = +new Date(user.lastRefreshTime)
+  // console.log('update time', update)
+  // console.log('expire', expire)
+  // console.log('now', now)
+  if (now - update >= expire) {
+    console.log('refresh token for', user.id)
+    await user.refresh()
+  }
+  if (!user.on && user.turnOffDesc !== 'self') {
+    await user.ensureWebHook()
+  }
+  return user
 }
 
-function nextTask (db, lastKey) {
-  console.log('send next renew request', db, lastKey)
-  // const url = `${process.env.RINGCENTRAL_APP_SERVER}/admin/renew-token?db=${db}&lastKey=${lastKey}`
-  // axios.put(
-  //   url,
-  //   undefined,
-  //   {
-  //     auth: {
-  //       username: process.env.RINGCENTRAL_ADMIN_USERNAME,
-  //       password: process.env.RINGCENTRAL_ADMIN_PASSWORD
-  //     }
-  //   }
-  // )
-  return maintain({
-    db,
-    lastKey,
-    app: 'maintain'
-  })
+// function notUsedForSomeTime (inst) {
+//   const now = Date.now()
+//   return now - (inst.lastUseTime || now) > deadline
+// }
+
+function nextTask (lastKey) {
+  console.log('send next renew request', lastKey)
+  const url = `${process.env.RINGCENTRAL_APP_SERVER}/admin/renew?lastKey=${lastKey}`
+  axios.put(
+    url,
+    undefined,
+    {
+      auth: {
+        username: process.env.RINGCENTRAL_CHATBOT_ADMIN_USERNAME,
+        password: process.env.RINGCENTRAL_CHATBOT_ADMIN_PASSWORD
+      }
+    }
+  )
+  return delay(1000)
 }
 
-export default async function renew (req, res) {
+export default async (req, res) => {
   const {
-    lastKey,
-    db,
-    force
+    lastKey
   } = req.query
   const q = {
     limit
@@ -51,46 +61,17 @@ export default async function renew (req, res) {
       id: { S: lastKey }
     }
   }
-  console.log('running renew task, limit', limit)
-  if (db === 'rc') {
-    const users = await RingCentralUser.findAll(q)
-    console.log('authed rc users:', users.length)
-    let i = 1
-    for (const user of users) {
-      if (notUsedForSomeTime(user)) {
-        console.log(user.id, 'not used for 90 days')
-      } else {
-        console.log(i, 'user', user.id)
-        await user.ensureWebHook()
-        i++
-      }
-    }
-    if (users.lastKey) {
-      await nextTask(db, users.lastKey.id.S)
-    }
+  console.log('running renew task')
+  const users = await User.findAll(q)
+  console.log('authed rc users:', users.length)
+  let i = 1
+  for (const user of users) {
+    console.log(i, 'user', user.id)
+    await user.tryRefresh().catch(console.error)
+    i++
+  }
+  if (users.lastKey) {
+    await nextTask(users.lastKey.id.S)
   }
   res.send('ok')
-}
-
-// trigger by native lambda event
-export function triggerMaintain (event) {
-  console.log('event for maintain:', event)
-  return new Promise((resolve, reject) => {
-    const {
-      lastKey,
-      db,
-      force
-    } = event
-    const req = {
-      query: {
-        lastKey,
-        db,
-        force
-      }
-    }
-    const res = {
-      send: resolve
-    }
-    renew(req, res)
-  })
 }

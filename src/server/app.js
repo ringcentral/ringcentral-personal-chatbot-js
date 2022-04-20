@@ -35,7 +35,7 @@ app.use(express.static(staticPath))
 app.use(morgan('tiny'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.set('views', resolve(__dirname, '../views'))
+app.set('views', resolve(__dirname, 'views'))
 app.set('view engine', 'pug')
 
 app.get('/logout', logout)
@@ -56,7 +56,7 @@ app.put('/admin/renew-token', auth, renewToken)
 export const initApp = (conf) => {
   app.get(SERVER_HOME, viewIndex(conf))
   app.post('/rc/webhook', initWebhook(conf))
-  for (let skill of conf.skills) {
+  for (const skill of conf.skills) {
     if (skill.appExtend) {
       skill.appExtend(app)
     }

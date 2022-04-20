@@ -23,7 +23,7 @@ exports.onPostAdd = async ({
   handled, // hanlded by prev skills
   shouldUseSignature // should use signature like "send by bot skill xxx" in message.
 }) => {
-  let sign = shouldUseSignature
+  const sign = shouldUseSignature
     ? `\n(send by [${exports.name}](${exports.homepage}))`
     : ''
   console.log(text, textFiltered, group, user, handled, shouldUseSignature)

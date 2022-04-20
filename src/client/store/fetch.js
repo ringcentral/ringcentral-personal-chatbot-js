@@ -6,14 +6,14 @@ const token = window.localStorage.getItem(
   window.rc.jwtPrefix + ':rcpf-jwt-token'
 ) || ''
 const jsonHeader = {
-  'Accept': 'application/json',
+  Accept: 'application/json',
   'Content-Type': 'application/json',
   Authorization: 'Bearer ' + token
 }
 
 function parseResponse (response) {
-  let contentType = response.headers.get('content-type') || ''
-  let isJsonResult = contentType.toLowerCase().includes('application/json')
+  const contentType = response.headers.get('content-type') || ''
+  const isJsonResult = contentType.toLowerCase().includes('application/json')
   return isJsonResult ? response.json() : response.text()
 }
 
@@ -50,7 +50,7 @@ export default class Fetch {
   }
 
   static connect (url, method, data, options = {}) {
-    let body = {
+    const body = {
       method,
       body: data
         ? JSON.stringify(data)

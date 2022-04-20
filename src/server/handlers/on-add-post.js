@@ -5,7 +5,7 @@ import { User } from '../models/ringcentral'
 import _ from 'lodash'
 
 function buildBotInfo (conf) {
-  let skillsInfo = conf.skills.reduce((prev, s) => {
+  const skillsInfo = conf.skills.reduce((prev, s) => {
     let name = s.name || 'skill No name'
     name = s.homepage
       ? `[${name}](${s.homepage})`
@@ -21,7 +21,7 @@ ${skillsInfo ? '**Skills:**\n' + skillsInfo : ''}`
 }
 
 export default async (message, conf) => {
-  let { text } = message.body
+  const { text } = message.body
   if (!text) {
     return // not a text message
   }
@@ -32,7 +32,7 @@ export default async (message, conf) => {
     return // bot should not talk to itself to avoid dead-loop conversation
   }
   const { groupId } = message.body
-  const user = await User.findByPk(ownerId)
+  const { user } = conf
   const group = await user.getGroup(groupId)
   const isPrivateChat = group.members.length <= 2
   const isNotMentioned = !message.body.mentions ||
@@ -63,7 +63,7 @@ export default async (message, conf) => {
       text: buildBotInfo(conf)
     })
   } else if (textFiltered === 'resume') {
-    let dt = {
+    const dt = {
       ...user.data
     }
     Object.keys(dt).forEach(k => {
@@ -80,7 +80,7 @@ export default async (message, conf) => {
       }
     })
     await user.sendMessage(groupId, {
-      text: `Bot resume`
+      text: 'Bot resume'
     })
   } else if (pauseReg.test(textFiltered)) {
     let t = textFiltered.match(pauseReg)[1]
@@ -94,8 +94,8 @@ export default async (message, conf) => {
     } else if (!t) {
       t = defaultMin
     }
-    let pauseUntil = t * 60 * 1000 + new Date().getTime()
-    let up = {
+    const pauseUntil = t * 60 * 1000 + new Date().getTime()
+    const up = {
       ...user.data
     }
     up[`pauseUntil_${groupId}`] = pauseUntil
@@ -112,6 +112,7 @@ export default async (message, conf) => {
   }
 
   return {
+    creatorId,
     text,
     textFiltered,
     isTalkToSelf,

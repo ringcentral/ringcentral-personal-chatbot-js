@@ -7,16 +7,12 @@ const { SERVER_HOME = '/' } = process.env
 
 export default async (req, res) => {
   const { code, state } = req.query
-  let { user, existInDB } = await User.init({ code, state })
-  if (state === 'user' || !existInDB) {
-    await user.ensureWebHook()
-  }
-  let { id } = user
+  const id = await User.init({ code, state })
   const token = sign(id)
-  let red = state.startsWith('redirect=')
+  const red = state.startsWith('redirect=')
     ? decodeURIComponent(state.replace(/^redirect=/, ''))
     : extraPath + SERVER_HOME
-  let data = {
+  const data = {
     redirect: red,
     title: pack.name,
     jwtPrefix,

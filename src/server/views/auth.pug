@@ -1,0 +1,22 @@
+
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='x-ua-compatible' content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    title Authing - #{title}
+    link(href='//developer.ringcentral.com/assets/images/favicon.ico?v=20181214-0738', type='image/vnd.microsoft.icon', rel='shortcut icon')
+  body
+    #bg
+    #container
+    #content-loading(style='text-align:center;padding:30px;font-size:24px') authing...
+    script.
+      window.rc = !{JSON.stringify(_global)}
+    script.
+      window.onload = function() {
+        localStorage.setItem(window.rc.jwtPrefix + ':rcpf-jwt-token', window.rc.token)
+        setTimeout(function() {
+          window.location.href = window.rc.redirect
+        }, 100)
+      }

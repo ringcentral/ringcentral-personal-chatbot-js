@@ -27,7 +27,7 @@ exports.onPostAdd = async ({
       console.log(`eval ${textFiltered} fails`)
     }
     if (res) {
-      let sign = shouldUseSignature
+      const sign = shouldUseSignature
         ? `\n(send by [${exports.name}](${exports.homepage}))`
         : ''
       await user.sendMessage(group.id, {

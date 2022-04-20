@@ -2,194 +2,270 @@
  * User class
  */
 
-import RingCentral from 'ringcentral-js-concise'
-import { Service } from './Service'
+import Sequelize from 'sequelize'
+import sequelize from './sequelize'
 import delay from 'timeout-as-promise'
-import { refreshRcUser } from '../common/refresh-user'
+import uid from '../common/uid'
+import _ from 'lodash'
+import { createRc, tokenExpireTime } from '../common/constants'
+import buildOffMessage from '../common/build-turn-off-warn'
+import {
+  sendPrivateMsg
+} from '../common/send-msg'
 
 export const subscribeInterval = () => '/restapi/v1.0/subscription/~?threshold=120&interval=35'
 
-export class User extends Service {}
-
-User.init = async ({ code, state }) => {
-  const rc = new RingCentral(
-    process.env.RINGCENTRAL_CLIENT_ID,
-    process.env.RINGCENTRAL_CLIENT_SECRET,
-    process.env.RINGCENTRAL_SERVER
-  )
-  await rc.authorize({
-    code,
-    redirectUri: process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/oauth'
-  })
-  const token = rc.token()
-  const id = token.owner_id
-  let where = {
-    id
-  }
-  let user = await User.findByPk(id)
-  let existInDB = !!user
-  const now = Date.now()
-  let update = {
-    token,
-    tokenUpdateTime: now,
-    lastUseTime: now
-  }
-  if (user) {
-    if (state === 'user') {
-      update.enabled = true
-    }
-    await User.update(update, {
-      where
-    })
-    Object.assign(user, update)
-    return { user, existInDB }
-  } else {
-    user = await User.create({
-      id,
-      ...update
-    })
-  }
-  return { user, existInDB }
-}
-
-Object.defineProperty(User.prototype, 'rc', {
-  get: function () {
-    const rc = new RingCentral(
-      process.env.RINGCENTRAL_CLIENT_ID,
-      process.env.RINGCENTRAL_CLIENT_SECRET,
-      process.env.RINGCENTRAL_SERVER
-    )
-    if (this.token) {
-      rc.token(this.token)
-    }
-    return rc
+export const User = sequelize.define('user', {
+  id: {
+    type: Sequelize.STRING,
+    primaryKey: true,
+    defaultValue: uid
+  },
+  name: {
+    type: Sequelize.STRING
+  },
+  firstName: {
+    type: Sequelize.STRING
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
+  email: {
+    type: Sequelize.STRING
+  },
+  turnOffDesc: {
+    type: Sequelize.STRING
+  },
+  token: {
+    type: Sequelize.JSON
+  },
+  enabled: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
+  },
+  signed: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
+  },
+  privateChatOnly: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  lastUseTime: {
+    type: Sequelize.INTEGER
+  },
+  tokenUpdateTime: {
+    type: Sequelize.INTEGER
+  },
+  data: { // all other data associcated with this user
+    type: Sequelize.JSON
   }
 })
 
-User.prototype.authorizeUri = function (state = 'hoder') {
-  return this.rc.authorizeUri(process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/oauth', {
-    state,
-    responseType: 'code'
+User.init = async ({ code, state }) => {
+  const rc = await createRc()
+  await rc.authorize({
+    redirect_uri: rc.redirectUrl,
+    code
+  }).then(d => d.data)
+  const rcToken = rc.token
+  const info = await rc.get('/restapi/v1.0/account/~/extension/~')
+    .then(r => r.data)
+  const rcId = rcToken.owner_id
+  let user = await User.findByPk(rcId)
+  const now = Date.now()
+  const up = {
+    enabled: true,
+    token: rcToken,
+    lastUseTime: now,
+    tokenUpdateTime: now,
+    name: info.name,
+    ..._.pick(info.contact, [
+      'firstName',
+      'lastName',
+      'email'
+    ])
+  }
+  const q = {
+    where: {
+      id: rcId
+    }
+  }
+  if (!user) {
+    user = await User.create({
+      id: rcId,
+      ...up
+    })
+  } else {
+    Object.assign(user, up)
+    await User.update(up, q)
+  }
+  await user.ensureWebHook()
+  return rcId
+}
+
+User.prototype.rc = async function () {
+  const rc = await createRc()
+  if (this.token) {
+    rc.token = this.token
+  }
+  return rc
+}
+
+User.prototype.removeWebHook = async function () {
+  return this.ensureWebHook(true)
+}
+
+User.prototype.ensureWebHook = async function (removeOnly = false) {
+  await this.tryRefresh()
+  const rc = await this.rc()
+  const r = await rc.get('/restapi/v1.0/subscription')
+    .then(d => d.data)
+    .catch(e => {
+      console.log(e, 'list WebHook error')
+    })
+  if (r && r.records) {
+    for (const sub of r.records) {
+      if (sub.deliveryMode.address === process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/webhook') {
+        await rc.delete(`/restapi/v1.0/subscription/${sub.id}`)
+          .catch(e => {
+            console.log(e, 'del WebHook error, id:', sub.id)
+          })
+      }
+    }
+  }
+  if (!removeOnly) {
+    return this.trySetupWebHook()
+  }
+}
+
+User.prototype.trySetupWebHook = async function () {
+  let count = 0
+  let done = false
+  while (count < 5 && !done) {
+    if (count > 0) {
+      console.log('retry setup webhook')
+    }
+    done = await this.setupWebHook()
+    count = count + 1
+    await delay(1)
+  }
+  if (!done) {
+    await this.turnOff()
+  }
+}
+
+User.prototype.setupWebHook = async function () {
+  await this.tryRefresh()
+  const rc = await this.rc()
+  return rc.post('/restapi/v1.0/subscription', {
+    eventFilters: [
+      '/restapi/v1.0/glip/posts',
+      '/restapi/v1.0/glip/groups',
+      subscribeInterval()
+    ],
+    expiresIn: 1799,
+    deliveryMode: {
+      transportType: 'WebHook',
+      address: process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/webhook'
+    }
   })
+    .then(() => true)
+    .catch(async e => {
+      console.log('setupWebHook error', e)
+    })
+}
+
+User.prototype.getSubscriptions = async function () {
+  await this.tryRefresh()
+  const rc = await this.rc()
+  return rc.get('/restapi/v1.0/subscription')
+    .then(d => d.data.records)
+    .catch(e => {
+      console.log('getSubscriptions error', e)
+      return []
+    })
+}
+
+User.prototype.tryRefresh = async function () {
+  const now = Date.now()
+  const { lastRefreshTime } = this
+  // console.log('now', now)
+  // console.log('lastRefreshTime', lastRefreshTime)
+  // console.log('diff', now - lastRefreshTime)
+  // console.log('tokenExpireTime', tokenExpireTime)
+  if (now - lastRefreshTime < tokenExpireTime) {
+    return false
+  }
+  return this.refresh()
 }
 
 User.prototype.refresh = async function () {
   try {
-    let { rc } = this
+    const rc = await this.rc()
     await rc.refresh()
-    let token = rc.token()
-    await User.update({
-      token
-    }, {
+    const { token } = rc
+    const now = Date.now()
+    const up = {
+      token,
+      lastRefreshTime: now
+    }
+    await User.update(up, {
       where: {
         id: this.id
       }
     })
-    this.token = token
+    Object.assign(this, up)
     return true
   } catch (e) {
-    console.log('User refresh token', e)
-    await User.destroy({
-      where: {
-        id: this.id
-      }
-    })
+    console.log('User refresh token error', e)
+    await this.turnOff()
     console.log(`User ${this.id} refresh token has expired`)
     return false
   }
 }
 
-User.prototype.getGroup = async function (groupId) {
-  await refreshRcUser(this)
-  try {
-    const r = await this.rc.get(`/restapi/v1.0/glip/groups/${groupId}`)
-    return r.data
-  } catch (e) {
-    if (e.status === 404) {
-      return undefined
-    }
-    throw e
+User.prototype.turnOff = async function (groupId) {
+  if (!this.enabled) {
+    return 1
   }
+  const up = {
+    enabled: false,
+    turnOffDesc: 'fail'
+  }
+  await User.update(
+    up,
+    {
+      where: {
+        id: this.id
+      }
+    }
+  )
+  Object.assign(this, up)
+  const msg = await buildOffMessage(this)
+  await sendPrivateMsg(this, msg)
+}
+
+User.prototype.getGroup = async function (groupId) {
+  await this.tryRefresh()
+  const rc = await this.rc()
+  return rc.get(`/restapi/v1.0/glip/groups/${groupId}`)
+    .then(d => d.data)
+    .catch(e => {
+      console.log('get group error', e)
+      return null
+    })
 }
 
 User.prototype.sendMessage = async function (groupId, messageObj) {
-  await refreshRcUser(this)
-  const r = await this.rc.post(`/restapi/v1.0/glip/groups/${groupId}/posts`, messageObj)
-  let mark = await this.markAsUnread(groupId).catch(e => {
-    console.log(e.stack)
-  })
+  await this.tryRefresh()
+  const rc = await this.rc()
+  const r = await rc.post(`/restapi/v1.0/glip/groups/${groupId}/posts`, messageObj)
+    .then(d => d.data)
+    .catch(err => {
+      console.log('send msg error', err)
+    })
   return {
-    sendResult: r.data,
-    markAsUnreadResult: mark
-  }
-}
-
-User.prototype.markAsUnread = async function (groupId) {
-  await refreshRcUser(this)
-  const r = await this.rc.post(`restapi/v1.0/glip/chats/${groupId}/unread`)
-  return r.data
-}
-
-User.prototype.removeWebHook = function () {
-  return this.ensureWebHook(true)
-}
-
-User.prototype.ensureWebHook = async function (removeOnly = false) {
-  await refreshRcUser(this)
-  try {
-    const r = await this.rc.get('/restapi/v1.0/subscription')
-    for (const sub of r.data.records) {
-      if (sub.deliveryMode.address === process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/webhook') {
-        await this.rc.delete(`/restapi/v1.0/subscription/${sub.id}`)
-      }
-    }
-  } catch (e) {
-    console.log(e, 'ensureWebHook error')
-  }
-
-  if (!removeOnly) {
-    await this.setupWebHook()
-  }
-}
-
-User.prototype.setupWebHook = async function () {
-  await refreshRcUser(this)
-  let done = false
-  while (!done) {
-    try {
-      await this.rc.post('/restapi/v1.0/subscription', {
-        eventFilters: [
-          '/restapi/v1.0/glip/posts',
-          '/restapi/v1.0/glip/groups',
-          '/restapi/v1.0/account/~/extension/~',
-          '/restapi/v1.0/account/~/extension/~/message-store',
-          subscribeInterval()
-        ],
-        expiresIn: 3600,
-        deliveryMode: {
-          transportType: 'WebHook',
-          address: process.env.RINGCENTRAL_CHATBOT_SERVER + '/rc/webhook'
-        }
-      })
-      done = true
-    } catch (e) {
-      const errorCode = e.data.errorCode
-      if (errorCode === 'SUB-406' || errorCode === 'SUB-521') {
-        await delay(10000)
-        continue
-      }
-      throw e
-    }
-  }
-}
-
-User.prototype.getSubscriptions = async function () {
-  await refreshRcUser(this)
-  try {
-    const r = await this.rc.get('/restapi/v1.0/subscription')
-    return r.data.records
-  } catch (e) {
-    console.log(e)
-    return []
+    sendResult: r
   }
 }

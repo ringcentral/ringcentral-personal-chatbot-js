@@ -9,9 +9,9 @@ import onAddPost from '../handlers/on-add-post'
 async function run (props, conf, funcName) {
   const { skills } = conf
   let handled = false
-  for (let skill of skills) {
+  for (const skill of skills) {
     if (skill[funcName]) {
-      let prev = await skill[funcName]({
+      const prev = await skill[funcName]({
         ...props,
         shouldUseSignature: conf.shouldUseSignature,
         handled
@@ -27,42 +27,38 @@ async function run (props, conf, funcName) {
 
 export default (conf) => {
   return async (req, res) => {
-    let message = req.body
-    console.log('message', message)
-    let isRenewEvent = _.get(message, 'event') === subscribeInterval()
-    let userId = (_.get(message, 'body.extensionId') || _.get(message, 'ownerId') || '').toString()
+    const message = req.body
+    if (process.env.DEBUG_ON) {
+      console.log('get rc webhook', JSON.stringify(message, null, 2))
+    }
+    const isRenewEvent = _.get(message, 'event') === subscribeInterval()
+    const userId = (_.get(message, 'body.extensionId') || _.get(message, 'ownerId') || '').toString()
     if (!userId) {
       res.set({
         'validation-token': req.get('validation-token') || req.get('Validation-Token')
       })
       return res.send('ok')
     }
-    let user = await User.findOne({
-      where: {
-        id: userId
-      }
-    })
-    if (isRenewEvent) {
-      // get reminder event, do token renew and subscribe renew
-      if (user && isRenewEvent) {
-        console.log(new Date().toString(), 'receive renew event, user id', userId)
-        await user.refresh()
-        await user.ensureWebHook()
-      }
+    const user = await User.findByPk(userId)
+    if (isRenewEvent && user) {
+      // console.log(new Date().toString(), 'receive renew event, user id', userId)
+      await user.ensureWebHook()
+      return
     }
-    let eventType = _.get(message, 'body.eventType')
-    let shouldUseSignature = !!_.get(user, 'signed')
-    let currentConf = {
+    const eventType = _.get(message, 'body.eventType')
+    const shouldUseSignature = !!_.get(user, 'signed')
+    const currentConf = {
       ...conf,
+      user,
       shouldUseSignature
     }
     if (eventType === 'PostAdded') {
-      const result = await onAddPost(message, currentConf, shouldUseSignature)
+      const result = await onAddPost(message, currentConf)
       if (result) {
         await run({ type: 'Message4Bot', ...result }, currentConf, 'onPostAdd')
       }
     }
-    await run({ eventType, message, user }, conf, 'onEvent')
+    await run({ eventType, message, user }, currentConf, 'onEvent')
     res.set({
       'validation-token': req.get('validation-token') || req.get('Validation-Token')
     })

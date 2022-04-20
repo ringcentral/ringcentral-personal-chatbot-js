@@ -13,14 +13,28 @@ const supportedActions = [
   'switch-reply-without-mention-in-team'
 ]
 
+const validProps = [
+  'id',
+  'name',
+  'firstName',
+  'lastName',
+  'email',
+  'enabled',
+  'signed',
+  'privateChatOnly',
+  'lastUseTime',
+  'tokenUpdateTime',
+  'data'
+]
+
 export default async (req, res) => {
-  let { user } = req
+  const { user } = req
   if (!user) {
     res.status(401)
     return res.send('please login first')
   }
-  let { body = {} } = req
-  let {
+  const { body = {} } = req
+  const {
     action,
     update
   } = body
@@ -28,13 +42,11 @@ export default async (req, res) => {
     res.status(400)
     return res.send('not supported')
   }
-  let { id } = user
+  const { id } = user
   let result
   if (action === 'get-user') {
     result = await User.findByPk(id).catch(console.error)
-    result = _.pick(result || {}, [
-      'id', 'enabled', 'signed', 'privateChatOnly', 'data'
-    ])
+    result = _.pick(result || {}, validProps)
     if (_.isEmpty(result)) {
       res.status(401)
       return res.send('user not exist')
@@ -48,8 +60,8 @@ export default async (req, res) => {
       }
     }).catch(console.error)
   } else if (action === 'bot-switch') {
-    let enabled = !!update.enabled
-    let user = await User.findByPk(id).catch(console.error)
+    const enabled = !!update.enabled
+    const user = await User.findByPk(id).catch(console.error)
     if (enabled || !user) {
       res.status(401)
       return res.send('user not find')
@@ -57,16 +69,10 @@ export default async (req, res) => {
     if (user.enabled && !enabled) {
       await user.ensureWebHook(true)
     }
-    result = await User.update({
-      enabled
-    }, {
-      where: {
-        id
-      }
-    }).catch(console.error)
+    result = user
   } else if (action === 'switch-reply-without-mention-in-team') {
-    let enabled = !!update
-    let user = await User.findByPk(id).catch(console.error)
+    const enabled = !!update
+    const user = await User.findByPk(id).catch(console.error)
     if (!user) {
       res.status(401)
       return res.send('user not find')

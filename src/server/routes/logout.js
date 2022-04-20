@@ -4,7 +4,7 @@ import copy from 'json-deep-copy'
 const { SERVER_HOME = '/' } = process.env
 
 export default async (req, res) => {
-  let data = {
+  const data = {
     redirect: extraPath + SERVER_HOME,
     title: pack.name,
     jwtPrefix

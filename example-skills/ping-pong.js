@@ -17,7 +17,7 @@ exports.onPostAdd = async ({
   shouldUseSignature // should use signature like "send by bot skill xxx" in message.
 }) => {
   if (textFiltered === 'ping') {
-    let sign = shouldUseSignature
+    const sign = shouldUseSignature
       ? `\n(send by [${exports.name}](${exports.homepage}))`
       : ''
     await user.sendMessage(group.id, {

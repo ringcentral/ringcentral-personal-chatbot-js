@@ -4,7 +4,7 @@
 
 const axios = require('axios')
 const port = process.env.SERVER_PORT
-const url = `http://localhost:${port}/admin/setup-database`
+const url = `http://127.0.0.1:${port}/admin/setup-database`
 
 export default () => {
   console.log('-> init database...')

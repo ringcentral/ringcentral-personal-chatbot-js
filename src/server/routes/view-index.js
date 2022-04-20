@@ -19,7 +19,6 @@ export default (conf) => {
   const botInfo = buildBotInfo(conf)
   return async (req, res) => {
     const url = await buildLoginUrlRedirect()
-    console.log('url', url)
     const data = {
       version: pack.version,
       title: pack.name,

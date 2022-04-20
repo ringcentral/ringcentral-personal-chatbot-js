@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-personal-chatbot",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0",
   "description": "RingCentral personal chatbot framework",
   "main": "dist/server/index.js",
   "bin": {
@@ -13,7 +13,7 @@
     "start": "node -r @babel/register bin/rcpf.js example-bots/hello-bot-with-skills.js",
     "c": "webpack serve --config build/webpack.config.js",
     "compile": "babel src/server --out-dir dist/server",
-    "release": "./node_modules/.bin/webpack --config build/webpack.config.js",
+    "release": "NODE_ENV=production ./node_modules/.bin/webpack --config build/webpack.config.js",
     "p": "cross-env NODE_ENV=production node bin/rcpf.js example-bots/hello.js",
     "view": "node build/view.js",
     "build": "npm run clean && npm run compile && npm run release && npm run view",
@@ -109,7 +109,6 @@
   "files": [
     "bin",
     "dist",
-    "src",
     "README.md"
   ]
 }

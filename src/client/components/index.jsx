@@ -29,7 +29,7 @@ export default class App extends Component {
     this.fetchUserInfo()
   }
 
-  updateSigned = async (signed) => {
+  handleUpdateSigned = async (signed) => {
     this.setState({
       loading: true
     })
@@ -103,7 +103,7 @@ export default class App extends Component {
     })
   }
 
-  updateReplyWithoutMentionInTeam = async (update) => {
+  handleReplyWithoutMentionInTeam = async (update) => {
     this.setState({
       loading: true
     })
@@ -254,14 +254,14 @@ export default class App extends Component {
 
   renderSwitch () {
     const { enabled } = this.state.user
-    const { switching, updateEnable } = this.state
+    const { switching } = this.state
     const turnOnUrl = window.rc.authUrlDefault.replace(window.rc.defaultState, 'user')
     if (enabled) {
       return (
         <Button
           type='danger'
           loading={switching}
-          onClick={() => updateEnable(false)}
+          onClick={() => this.updateEnable(false)}
         >Turn off Bot
         </Button>
       )
@@ -279,7 +279,7 @@ export default class App extends Component {
   }
 
   renderLogined () {
-    const { loading, user = {}, updateSigned, updateReplyWithoutMentionInTeam } = this.state
+    const { loading, user = {} } = this.state
     const txt = 'Enabled bot message signature'
     const { enabled } = user
     const txt1 = enabled
@@ -300,7 +300,7 @@ export default class App extends Component {
             <Switch
               loading={loading}
               checked={user.signed}
-              onChange={updateSigned}
+              onChange={this.handleUpdateSigned}
               checkedChildren={txt}
               unCheckedChildren={txt}
             />
@@ -310,7 +310,7 @@ export default class App extends Component {
             <Switch
               loading={loading}
               checked={!!_.get(user, 'data.replyWithoutMentionInTeam')}
-              onChange={updateReplyWithoutMentionInTeam}
+              onChange={this.handleReplyWithoutMentionInTeam}
               checkedChildren={txt2}
               unCheckedChildren={txt2}
             />

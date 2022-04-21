@@ -67,6 +67,10 @@ export default async (req, res) => {
       return res.send('user not find')
     }
     if (user.enabled && !enabled) {
+      await User.update({
+        enabled: false,
+        turnOffDesc: 'self'
+      })
       await user.ensureWebHook(true)
     }
     result = user

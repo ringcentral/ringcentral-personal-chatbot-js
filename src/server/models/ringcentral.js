@@ -33,6 +33,9 @@ export const User = sequelize.define('user', {
   email: {
     type: Sequelize.STRING
   },
+  timezone: {
+    type: Sequelize.JSON
+  },
   turnOffDesc: {
     type: Sequelize.STRING
   },
@@ -71,12 +74,14 @@ User.init = async ({ code, state }) => {
   const rcToken = rc.token
   const info = await rc.get('/restapi/v1.0/account/~/extension/~')
     .then(r => r.data)
+  const { timezone } = info?.regionalSettings || {}
   const rcId = rcToken.owner_id
   let user = await User.findByPk(rcId)
   const now = Date.now()
   const up = {
     enabled: true,
     token: rcToken,
+    timezone,
     lastUseTime: now,
     tokenUpdateTime: now,
     name: info.name,

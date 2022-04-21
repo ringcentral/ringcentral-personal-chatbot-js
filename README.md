@@ -48,8 +48,6 @@ Login to [developer.ringcentral.com](https://developer.ringcentral.com/) and cre
 - Permissions Needed: Accounts, Team messaging, Read Accounts, Webhook Subscriptions
 - Set OAuth Redirect URI: Using your ngrok HTTPS URL from above, enter in the following value: `https://xxxx.ap.ngrok.io/rc/oauth`.
 
-<a href="https://developer.ringcentral.com/new-app?name=Sample+Personal+Bot+App&desc=A+sample+app+created+in+conjunction+with+the+ringcentral+personal+bot+framework&public=true&type=BrowserBased&carriers=7710,7310,3420&permissions=Accounts,Contacts,Glip,GlipInternal,ReadAccounts,ReadClientInfo,ReadContacts,ReadMessages,ReadPresence,SubscriptionWebhook&redirectUri=" target="_blank">Click to create app</a>
-
 ```bash
 cp .env.sample .env
 # then fill all required fields in .env, you can get client ID / secret from app setting

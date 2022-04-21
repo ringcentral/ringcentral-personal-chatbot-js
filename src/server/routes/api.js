@@ -70,6 +70,10 @@ export default async (req, res) => {
       await User.update({
         enabled: false,
         turnOffDesc: 'self'
+      }, {
+        where: {
+          id: user.id
+        }
       })
       await user.ensureWebHook(true)
     }

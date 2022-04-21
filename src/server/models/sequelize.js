@@ -21,7 +21,7 @@ if (DYNAMODB_LOCALHOST) {
 const config = {
   define: {
     timestamps: true,
-    jsonAsObject: process.env.DYNAMO_SAVE_JSON_AS_OBJECT || true,
+    jsonAsObject: process.env.DYNAMO_SAVE_JSON_AS_OBJECT || false,
     saveUnknown: true
   },
   logging: false,

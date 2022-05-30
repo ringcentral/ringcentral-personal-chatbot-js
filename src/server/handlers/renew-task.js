@@ -12,6 +12,10 @@ const limit = parseInt(process.env.RENEW_LIMIT, 10)
 const expire = 3600 * 1000 - 60 * 1000
 
 export async function refreshUser (user) {
+  if (!user.enabled && user.turnOffDesc === 'self') {
+    console.log('user id', user.id, 'turn it off by self, no refresh token')
+    return false
+  }
   const now = Date.now()
   const update = +new Date(user.lastRefreshTime)
   // console.log('update time', update)
